@@ -16,15 +16,16 @@ class PokemonRepository {
     try {
       final String pokemonListData =
           await pokemonDataProvider.getPokemonList(limit, offset);
+      final jsonDecoded = jsonDecode(pokemonListData);
       final GetPokemonResponseModel listData =
-          GetPokemonResponseModel.fromMap(jsonDecode(pokemonListData));
+          GetPokemonResponseModel.fromMap(jsonDecoded);
       final List<PokemonModel> listPokemon = listData.results;
 
       final List<PokemonDetailModel> listPokemonDetail = [];
 
       for (final PokemonModel a in listPokemon) {
         final String fetchDetailData =
-            await pokemonDetailDataProvider.getPokemonDetail(a.id);
+            await pokemonDetailDataProvider.getPokemonDetail(a.url);
         final PokemonDetailModel data =
             PokemonDetailModel.fromMap(jsonDecode(fetchDetailData));
         listPokemonDetail.add(data);

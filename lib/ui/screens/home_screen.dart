@@ -54,12 +54,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   List<PokemonDetailModel> data = state.listPokemonDetailModel;
 
-                  return ListView.builder(itemBuilder: ((context, index) {
-                    return PokememonItem(
-                        imageUrl: data[index].imageUrl,
-                        id: data[index].id,
-                        isSelected: false);
-                  }));
+                  return Expanded(
+                    child: ListView.builder(itemBuilder: ((context, index) {
+                      return PokememonItem(
+                          imageUrl: data[index].imageUrl,
+                          id: data[index].id,
+                          isSelected: false);
+                    })),
+                  );
                 },
               )
             ],

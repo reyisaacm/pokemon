@@ -3,33 +3,33 @@ import 'dart:convert';
 
 class PokemonModel {
   final String name;
-  final int id;
+  final String url;
   PokemonModel({
     required this.name,
-    required this.id,
+    required this.url,
   });
 
   PokemonModel copyWith({
     String? name,
-    int? id,
+    String? url,
   }) {
     return PokemonModel(
       name: name ?? this.name,
-      id: id ?? this.id,
+      url: url ?? this.url,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
-      'id': id,
+      'url': url,
     };
   }
 
   factory PokemonModel.fromMap(Map<String, dynamic> map) {
     return PokemonModel(
       name: map['name'] as String,
-      id: map['id'] as int,
+      url: map['url'] as String,
     );
   }
 
@@ -39,15 +39,15 @@ class PokemonModel {
       PokemonModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'PokemonModel(name: $name, id: $id)';
+  String toString() => 'PokemonModel(name: $name, url: $url)';
 
   @override
   bool operator ==(covariant PokemonModel other) {
     if (identical(this, other)) return true;
 
-    return other.name == name && other.id == id;
+    return other.name == name && other.url == url;
   }
 
   @override
-  int get hashCode => name.hashCode ^ id.hashCode;
+  int get hashCode => name.hashCode ^ url.hashCode;
 }

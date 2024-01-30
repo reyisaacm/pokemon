@@ -7,8 +7,8 @@ import 'package:pokemon_flutter/models/pokemon_model.dart';
 
 class GetPokemonResponseModel {
   final int count;
-  final String next;
-  final String previous;
+  final String? next;
+  final String? previous;
   final List<PokemonModel> results;
   GetPokemonResponseModel({
     required this.count,
@@ -43,10 +43,10 @@ class GetPokemonResponseModel {
   factory GetPokemonResponseModel.fromMap(Map<String, dynamic> map) {
     return GetPokemonResponseModel(
       count: map['count'] as int,
-      next: map['next'] as String,
-      previous: map['previous'] as String,
+      next: map['next'] as String?,
+      previous: map['previous'] as String?,
       results: List<PokemonModel>.from(
-        (map['results'] as List<int>).map<PokemonModel>(
+        (map['results'] as List<dynamic>).map<PokemonModel>(
           (x) => PokemonModel.fromMap(x as Map<String, dynamic>),
         ),
       ),
