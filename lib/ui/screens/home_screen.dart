@@ -14,59 +14,64 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late PokemonBloc _pokemonBloc;
-
+  final int limit = 30;
+  final int offset = 0;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _pokemonBloc = BlocProvider.of(context);
-    _pokemonBloc.add(PokemonFetched());
+    _pokemonBloc.add(PokemonFetched(limit, offset));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Pokemon"), centerTitle: true),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Text(
-                "Search Box",
-              )
-            ],
-          ),
-          Row(
-            children: [
-              BlocBuilder<PokemonBloc, PokemonState>(
-                builder: (context, state) {
-                  if (state is PokemonFailure) {
-                    return Center(
-                      child: Text(state.error),
-                    );
-                  }
-
-                  if (state is! PokemonSuccess) {
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    );
-                  }
-
-                  List<PokemonDetailModel> data = state.listPokemonDetailModel;
-
-                  return Expanded(
-                    child: ListView.builder(itemBuilder: ((context, index) {
-                      return PokememonItem(
-                          imageUrl: data[index].imageUrl,
-                          id: data[index].id,
-                          isSelected: false);
-                    })),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            TextField(
+              decoration: InputDecoration(
+                hintText: "Search Pokemon",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+            BlocBuilder<PokemonBloc, PokemonState>(
+              builder: (context, state) {
+                if (state is PokemonFailure) {
+                  return Center(
+                    child: Text(state.error),
                   );
-                },
-              )
-            ],
-          )
-        ],
+                }
+
+                if (state is! PokemonSuccess) {
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                }
+
+                List<PokemonDetailModel> data = state.listPokemonDetailModel;
+
+                return Flexible(
+                  child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4),
+                      itemCount: data.length,
+                      itemBuilder: ((context, index) {
+                        return PokememonItem(
+                            imageUrl: data[index].imageUrl,
+                            id: data[index].id,
+                            isSelected: false);
+                      })),
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }
