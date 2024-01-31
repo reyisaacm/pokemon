@@ -9,3 +9,9 @@ final class PokemonFetched extends PokemonEvent {
 
   PokemonFetched(this.limit, this.offset);
 }
+
+final class PokemonSelected extends PokemonEvent {
+  final int index;
+
+  PokemonSelected(this.index);
+}

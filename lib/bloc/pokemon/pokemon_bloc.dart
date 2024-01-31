@@ -11,6 +11,7 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
 
   PokemonBloc(this.pokemonRepository) : super(PokemonInitial()) {
     on<PokemonFetched>(_getPokemonList);
+    on<PokemonSelected>(_selectPokemonList);
   }
 
   void _getPokemonList(PokemonFetched event, Emitter<PokemonState> emit) async {
@@ -23,5 +24,24 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
       // print(s);
       emit(PokemonFailure(e.toString()));
     }
+  }
+
+  void _selectPokemonList(PokemonSelected event, Emitter<PokemonState> emit) {
+    PokemonSuccess state = this.state as PokemonSuccess;
+
+    // for (int i = 0; i < state.listPokemonDetailModel.length; i++) {
+    //   // print(event.index);
+    //   // print(i);
+    //   if (i == event.index) {
+    //     // print("selected");
+    //     state.listPokemonDetailModel[event.index].isSelected = true;
+    //   } else {
+    //     state.listPokemonDetailModel[event.index].isSelected = false;
+    //   }
+    // }
+
+    state.listPokemonDetailModel[event.index].isSelected = true;
+
+    emit(PokemonSuccess([...state.listPokemonDetailModel]));
   }
 }

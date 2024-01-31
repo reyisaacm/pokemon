@@ -40,6 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 8,
+            ),
             BlocBuilder<PokemonBloc, PokemonState>(
               builder: (context, state) {
                 if (state is PokemonFailure) {
@@ -62,10 +65,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisCount: 4),
                       itemCount: data.length,
                       itemBuilder: ((context, index) {
-                        return PokememonItem(
-                            imageUrl: data[index].imageUrl,
-                            id: data[index].id,
-                            isSelected: false);
+                        return GestureDetector(
+                          onTap: () {
+                            context
+                                .read<PokemonBloc>()
+                                .add(PokemonSelected(index));
+                          },
+                          child: PokememonItem(
+                              imageUrl: data[index].imageUrl,
+                              id: data[index].id,
+                              isSelected: data[index].isSelected),
+                        );
                       })),
                 );
               },

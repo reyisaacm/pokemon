@@ -12,6 +12,7 @@ class PokemonDetailModel {
   final int specialAttack;
   final int specialDefense;
   final int speed;
+  bool isSelected = false;
 
   PokemonDetailModel({
     required this.id,

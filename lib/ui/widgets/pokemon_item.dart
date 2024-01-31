@@ -14,7 +14,12 @@ class PokememonItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [Image.network(imageUrl)],
+      children: [
+        Container(
+          color: isSelected ? const Color.fromRGBO(236, 236, 236, 1) : null,
+          child: Image.network(imageUrl),
+        )
+      ],
     );
   }
 }
