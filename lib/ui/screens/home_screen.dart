@@ -59,24 +59,38 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 List<PokemonDetailModel> data = state.listPokemonDetailModel;
 
-                return Flexible(
-                  child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4),
-                      itemCount: data.length,
-                      itemBuilder: ((context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            context
-                                .read<PokemonBloc>()
-                                .add(PokemonSelected(index));
-                          },
-                          child: PokememonItem(
-                              imageUrl: data[index].imageUrl,
-                              id: data[index].id,
-                              isSelected: data[index].isSelected),
-                        );
-                      })),
+                return Column(
+                  children: [
+                    Flexible(
+                      child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 4),
+                          itemCount: data.length,
+                          itemBuilder: ((context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                context
+                                    .read<PokemonBloc>()
+                                    .add(PokemonSelected(index));
+                              },
+                              child: PokememonItem(
+                                  imageUrl: data[index].imageUrl,
+                                  id: data[index].id,
+                                  isSelected: data[index].isSelected),
+                            );
+                          })),
+                    ),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll<Color>(Colors.green),
+                          textStyle: MaterialStatePropertyAll<TextStyle>(
+                              TextStyle(color: Colors.white))),
+                      onPressed: () {},
+                      child: const Text("I Choose You"),
+                    )
+                  ],
                 );
               },
             )

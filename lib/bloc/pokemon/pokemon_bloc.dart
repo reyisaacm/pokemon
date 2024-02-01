@@ -29,18 +29,13 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   void _selectPokemonList(PokemonSelected event, Emitter<PokemonState> emit) {
     PokemonSuccess state = this.state as PokemonSuccess;
 
-    // for (int i = 0; i < state.listPokemonDetailModel.length; i++) {
-    //   // print(event.index);
-    //   // print(i);
-    //   if (i == event.index) {
-    //     // print("selected");
-    //     state.listPokemonDetailModel[event.index].isSelected = true;
-    //   } else {
-    //     state.listPokemonDetailModel[event.index].isSelected = false;
-    //   }
-    // }
-
-    state.listPokemonDetailModel[event.index].isSelected = true;
+    for (int i = 0; i < state.listPokemonDetailModel.length; i++) {
+      if (i == event.index) {
+        state.listPokemonDetailModel[i].isSelected = true;
+      } else {
+        state.listPokemonDetailModel[i].isSelected = false;
+      }
+    }
 
     emit(PokemonSuccess([...state.listPokemonDetailModel]));
   }
