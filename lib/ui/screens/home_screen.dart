@@ -3,6 +3,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart";
 import "package:pokemon_flutter/models/pokemon_detail_model.dart";
 import "package:pokemon_flutter/models/pokemon_model.dart";
+import "package:pokemon_flutter/ui/widgets/pokemon_button_primary.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_item.dart";
 
 class HomeScreen extends StatefulWidget {
@@ -14,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late PokemonBloc _pokemonBloc;
+  late PokemonBloc _buttonBloc;
   final int limit = 30;
   final int offset = 0;
   @override
@@ -21,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     _pokemonBloc = BlocProvider.of(context);
+    _buttonBloc = context.read<PokemonBloc>();
     _pokemonBloc.add(PokemonFetched(limit, offset));
   }
 
@@ -29,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text("Pokemon"), centerTitle: true),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
             TextField(
@@ -44,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 8,
             ),
             BlocBuilder<PokemonBloc, PokemonState>(
+              bloc: _pokemonBloc,
               builder: (context, state) {
                 if (state is PokemonFailure) {
                   return Center(
@@ -56,41 +60,42 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: CircularProgressIndicator.adaptive(),
                   );
                 }
-
                 List<PokemonDetailModel> data = state.listPokemonDetailModel;
 
-                return Column(
-                  children: [
-                    Flexible(
-                      child: GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 4),
-                          itemCount: data.length,
-                          itemBuilder: ((context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                context
-                                    .read<PokemonBloc>()
-                                    .add(PokemonSelected(index));
-                              },
-                              child: PokememonItem(
-                                  imageUrl: data[index].imageUrl,
-                                  id: data[index].id,
-                                  isSelected: data[index].isSelected),
-                            );
-                          })),
-                    ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll<Color>(Colors.green),
-                          textStyle: MaterialStatePropertyAll<TextStyle>(
-                              TextStyle(color: Colors.white))),
-                      onPressed: () {},
-                      child: const Text("I Choose You"),
-                    )
-                  ],
+                return Flexible(
+                  child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 4),
+                      itemCount: data.length,
+                      itemBuilder: ((context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            _pokemonBloc.add(PokemonSelected(index));
+                            _buttonBloc.add(PokemonChooseButtonEnabled());
+                          },
+                          child: PokememonItem(
+                              imageUrl: data[index].imageUrl,
+                              id: data[index].id,
+                              isSelected: data[index].isSelected),
+                        );
+                      })),
+                );
+              },
+            ),
+            BlocBuilder<PokemonBloc, PokemonState>(
+              bloc: _buttonBloc,
+              builder: (context, state) {
+                bool isEnabled = false;
+
+                if (state is PokemonChooseButtonEnable) {
+                  isEnabled = true;
+                }
+
+                return PokemonButtonPrimary(
+                  isEnabled: isEnabled,
+                  onTap: () {},
+                  buttonText: "I Choose You",
                 );
               },
             )

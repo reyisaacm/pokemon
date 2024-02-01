@@ -17,4 +17,6 @@ final class PokemonFailure extends PokemonState {
   PokemonFailure(this.error);
 }
 
+final class PokemonChooseButtonEnable extends PokemonState {}
+
 final class PokemonLoading extends PokemonState {}

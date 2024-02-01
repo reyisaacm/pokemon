@@ -15,3 +15,5 @@ final class PokemonSelected extends PokemonEvent {
 
   PokemonSelected(this.index);
 }
+
+final class PokemonChooseButtonEnabled extends PokemonEvent {}
