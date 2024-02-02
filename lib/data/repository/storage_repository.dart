@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:pokemon_flutter/data/data_provider/local_storage_data_provider.dart';
+import 'package:pokemon_flutter/data/data_provider/storage_data_provider.dart';
 import 'package:pokemon_flutter/models/pokemon_detail_model.dart';
 
-class LocalStorageRepository {
-  final LocalStorageDataProvider provider;
-  LocalStorageRepository(this.provider);
+class StorageRepository {
+  final StorageDataProvider provider;
+  StorageRepository(this.provider);
 
   Future<PokemonDetailModel> getData() async {
     try {
@@ -19,9 +19,10 @@ class LocalStorageRepository {
     }
   }
 
-  void writeData(PokemonDetailModel data) async {
+  Future<PokemonDetailModel> writeData(PokemonDetailModel data) async {
     try {
       provider.write(jsonEncode(data));
+      return getData();
     } catch (e) {
       // print(s);
       throw e.toString();

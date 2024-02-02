@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
-class LocalStorageDataProvider {
+class StorageDataProvider {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
