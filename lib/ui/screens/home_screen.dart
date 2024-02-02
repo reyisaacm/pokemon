@@ -2,7 +2,6 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart";
 import "package:pokemon_flutter/models/pokemon_detail_model.dart";
-import "package:pokemon_flutter/models/pokemon_model.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_button_primary.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_item.dart";
 
@@ -15,16 +14,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late PokemonBloc _pokemonBloc;
-  late PokemonBloc _buttonBloc;
   final int limit = 30;
-  final int offset = 0;
+  int offset = 0;
+  bool isEnabled = false;
+  List<PokemonDetailModel> data = [];
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _pokemonBloc = BlocProvider.of(context);
-    _buttonBloc = context.read<PokemonBloc>();
     _pokemonBloc.add(PokemonFetched(limit, offset));
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          offset = offset + limit;
+        });
+        _pokemonBloc.add(PokemonFetched(limit, offset));
+      }
+    });
   }
 
   @override
@@ -55,15 +66,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }
 
-                if (state is! PokemonSuccess) {
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  );
+                if (state is PokemonSuccess) {
+                  data.addAll(state.listPokemonDetailModel);
                 }
-                List<PokemonDetailModel> data = state.listPokemonDetailModel;
+
+                if (state is PokemonSelect) {
+                  data = state.listPokemonDetailModel;
+                }
 
                 return Flexible(
                   child: GridView.builder(
+                      controller: _scrollController,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 4),
@@ -71,8 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: ((context, index) {
                         return GestureDetector(
                           onTap: () {
-                            _pokemonBloc.add(PokemonSelected(index));
-                            _buttonBloc.add(PokemonChooseButtonEnabled());
+                            _pokemonBloc.add(PokemonSelected(data, index));
+                            setState(() {
+                              isEnabled = true;
+                            });
                           },
                           child: PokememonItem(
                               imageUrl: data[index].imageUrl,
@@ -84,19 +99,21 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             BlocBuilder<PokemonBloc, PokemonState>(
-              bloc: _buttonBloc,
               builder: (context, state) {
-                bool isEnabled = false;
-
-                if (state is PokemonChooseButtonEnable) {
-                  isEnabled = true;
+                if (state is PokemonLoading) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
+                  );
+                } else {
+                  return PokemonButtonPrimary(
+                    isEnabled: isEnabled,
+                    onTap: () {},
+                    buttonText: "I Choose You",
+                  );
                 }
-
-                return PokemonButtonPrimary(
-                  isEnabled: isEnabled,
-                  onTap: () {},
-                  buttonText: "I Choose You",
-                );
               },
             )
           ],
