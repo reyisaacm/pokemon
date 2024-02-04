@@ -40,6 +40,6 @@ class StorageDataProvider {
     final file = await _localFile;
 
     // Write the file
-    return file.writeAsString(data);
+    return await file.writeAsString(data);
   }
 }

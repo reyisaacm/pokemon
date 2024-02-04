@@ -21,6 +21,7 @@ final class PokemonLoading extends PokemonState {}
 
 final class PokemonSelect extends PokemonState {
   final List<PokemonDetailModel> listPokemonDetailModel;
+  final PokemonDetailModel? selectedPokemon;
 
-  PokemonSelect(this.listPokemonDetailModel);
+  PokemonSelect(this.listPokemonDetailModel, this.selectedPokemon);
 }

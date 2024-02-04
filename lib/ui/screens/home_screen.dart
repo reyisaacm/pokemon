@@ -1,7 +1,11 @@
+import "dart:convert";
+
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart";
+import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
 import "package:pokemon_flutter/models/pokemon_detail_model.dart";
+import "package:pokemon_flutter/ui/screens/detail_screen.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_button_primary.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_item.dart";
 
@@ -14,10 +18,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late PokemonBloc _pokemonBloc;
+  late StorageBloc _storageBloc;
   final int limit = 30;
   int offset = 0;
   bool isEnabled = false;
   List<PokemonDetailModel> data = [];
+  late PokemonDetailModel? selectedPokemon;
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -26,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _pokemonBloc = BlocProvider.of(context);
     _pokemonBloc.add(PokemonFetched(limit, offset));
+    _storageBloc = context.read<StorageBloc>();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -72,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 if (state is PokemonSelect) {
                   data = state.listPokemonDetailModel;
+                  selectedPokemon = state.selectedPokemon;
                 }
 
                 return Flexible(
@@ -98,23 +106,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-            BlocBuilder<PokemonBloc, PokemonState>(
-              builder: (context, state) {
-                if (state is PokemonLoading) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    child: Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    ),
-                  );
-                } else {
-                  return PokemonButtonPrimary(
-                    isEnabled: isEnabled,
-                    onTap: () {},
-                    buttonText: "I Choose You",
-                  );
-                }
-              },
+            SafeArea(
+              child: BlocBuilder<PokemonBloc, PokemonState>(
+                builder: (context, state) {
+                  if (state is PokemonLoading) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      child: Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      ),
+                    );
+                  } else {
+                    return PokemonButtonPrimary(
+                      isEnabled: isEnabled,
+                      onTap: () {
+                        _storageBloc.add(StorageWritten(selectedPokemon!));
+                        // print("tapped");
+                        Navigator.of(context).pushReplacementNamed('/details');
+                      },
+                      buttonText: "I Choose You",
+                    );
+                  }
+                },
+              ),
             )
           ],
         ),

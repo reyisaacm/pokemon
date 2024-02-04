@@ -28,15 +28,16 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
 
   void _selectPokemonList(PokemonSelected event, Emitter<PokemonState> emit) {
     List<PokemonDetailModel> currentList = event.data;
-
+    PokemonDetailModel? selectedPokemon;
     for (int i = 0; i < currentList.length; i++) {
       if (i == event.index) {
         currentList[i].isSelected = true;
+        selectedPokemon = currentList[i];
       } else {
         currentList[i].isSelected = false;
       }
     }
 
-    emit(PokemonSelect(currentList));
+    emit(PokemonSelect(currentList, selectedPokemon));
   }
 }

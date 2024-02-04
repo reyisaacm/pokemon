@@ -7,6 +7,7 @@ import 'package:pokemon_flutter/data/data_provider/pokemon_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_details_data_provider.dart';
 import 'package:pokemon_flutter/data/repository/storage_repository.dart';
 import 'package:pokemon_flutter/data/repository/pokemon_repository.dart';
+import 'package:pokemon_flutter/ui/screens/detail_screen.dart';
 import 'package:pokemon_flutter/ui/screens/home_screen.dart';
 
 void main() {
@@ -44,7 +45,11 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const HomeScreen(),
+          routes: {
+            '/': (context) => const HomeScreen(),
+            '/details': (context) => const DetailScreen(),
+          },
+          initialRoute: '/',
         ),
       ),
     );

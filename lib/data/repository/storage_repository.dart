@@ -10,7 +10,8 @@ class StorageRepository {
   Future<PokemonDetailModel> getData() async {
     try {
       String storageData = await provider.read();
-      PokemonDetailModel model = jsonDecode(storageData);
+      final jsonData = jsonDecode(jsonDecode(storageData));
+      PokemonDetailModel model = PokemonDetailModel.fromJson(jsonData);
 
       return model;
     } catch (e) {
@@ -21,8 +22,9 @@ class StorageRepository {
 
   Future<PokemonDetailModel> writeData(PokemonDetailModel data) async {
     try {
-      provider.write(jsonEncode(data));
-      return getData();
+      await provider.write(jsonEncode(data));
+      dynamic returnData = await getData();
+      return returnData;
     } catch (e) {
       // print(s);
       throw e.toString();
