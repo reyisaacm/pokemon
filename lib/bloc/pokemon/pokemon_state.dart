@@ -6,9 +6,9 @@ sealed class PokemonState {}
 final class PokemonInitial extends PokemonState {}
 
 final class PokemonSuccess extends PokemonState {
-  final List<PokemonDetailModel> listPokemonDetailModel;
+  final List<PokemonListItemModel> listPokemonListItemModel;
 
-  PokemonSuccess(this.listPokemonDetailModel);
+  PokemonSuccess(this.listPokemonListItemModel);
 }
 
 final class PokemonFailure extends PokemonState {
@@ -20,8 +20,8 @@ final class PokemonFailure extends PokemonState {
 final class PokemonLoading extends PokemonState {}
 
 final class PokemonSelect extends PokemonState {
-  final List<PokemonDetailModel> listPokemonDetailModel;
-  final PokemonDetailModel? selectedPokemon;
+  final List<PokemonListItemModel> listPokemonListItemModel;
+  final PokemonListItemModel? selectedPokemon;
 
-  PokemonSelect(this.listPokemonDetailModel, this.selectedPokemon);
+  PokemonSelect(this.listPokemonListItemModel, this.selectedPokemon);
 }

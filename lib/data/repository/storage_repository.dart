@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:pokemon_flutter/data/data_provider/storage_data_provider.dart';
-import 'package:pokemon_flutter/models/pokemon_detail_model.dart';
+import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
 
 class StorageRepository {
   final StorageDataProvider provider;
   StorageRepository(this.provider);
 
-  Future<PokemonDetailModel> getData() async {
+  Future<PokemonListItemModel> getData() async {
     try {
       String storageData = await provider.read();
       // final jsonData = jsonDecode(storageData);
-      PokemonDetailModel model = PokemonDetailModel.fromJson(storageData);
+      PokemonListItemModel model = PokemonListItemModel.fromJson(storageData);
 
       return model;
     } catch (e) {
@@ -20,7 +20,7 @@ class StorageRepository {
     }
   }
 
-  Future<PokemonDetailModel> writeData(PokemonDetailModel data) async {
+  Future<PokemonListItemModel> writeData(PokemonListItemModel data) async {
     try {
       await provider.write(data.toJson());
       dynamic returnData = await getData();

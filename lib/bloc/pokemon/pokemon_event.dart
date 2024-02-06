@@ -11,7 +11,7 @@ final class PokemonFetched extends PokemonEvent {
 }
 
 final class PokemonSelected extends PokemonEvent {
-  final List<PokemonDetailModel> data;
+  final List<PokemonListItemModel> data;
   final int index;
 
   PokemonSelected(this.data, this.index);

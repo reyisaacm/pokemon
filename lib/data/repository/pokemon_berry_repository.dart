@@ -1,21 +1,22 @@
 import 'dart:convert';
 
-import 'package:pokemon_flutter/data/data_provider/pokemon_data_provider.dart';
+import 'package:pokemon_flutter/data/data_provider/pokemon_berry_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_details_data_provider.dart';
 import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
 import 'package:pokemon_flutter/models/pokemon_model.dart';
 import 'package:pokemon_flutter/models/remote/get_pokemon_response_model.dart';
 
-class PokemonRepository {
-  final PokemonDataProvider pokemonDataProvider;
+class PokemonBerryRepository {
+  final PokemonBerryDataProvider pokemonBerryDataProvider;
   final PokemonDetailsDataProvider pokemonDetailDataProvider;
 
-  PokemonRepository(this.pokemonDataProvider, this.pokemonDetailDataProvider);
+  PokemonBerryRepository(
+      this.pokemonBerryDataProvider, this.pokemonDetailDataProvider);
 
   Future<List<PokemonListItemModel>> getList(int limit, int offset) async {
     try {
       final String pokemonListData =
-          await pokemonDataProvider.getPokemonList(limit, offset);
+          await pokemonBerryDataProvider.getPokemonList(limit, offset);
       final jsonDecoded = jsonDecode(pokemonListData);
       final GetPokemonResponseModel listData =
           GetPokemonResponseModel.fromMap(jsonDecoded);

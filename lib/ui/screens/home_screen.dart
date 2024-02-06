@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart";
 import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
-import "package:pokemon_flutter/models/pokemon_detail_model.dart";
+import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
 import "package:pokemon_flutter/ui/screens/detail_screen.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_button_primary.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_item.dart";
@@ -22,8 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final int limit = 30;
   int offset = 0;
   bool isEnabled = false;
-  List<PokemonDetailModel> data = [];
-  late PokemonDetailModel? selectedPokemon;
+  List<PokemonListItemModel> data = [];
+  late PokemonListItemModel? selectedPokemon;
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -74,11 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
 
                 if (state is PokemonSuccess) {
-                  data.addAll(state.listPokemonDetailModel);
+                  data.addAll(state.listPokemonListItemModel);
                 }
 
                 if (state is PokemonSelect) {
-                  data = state.listPokemonDetailModel;
+                  data = state.listPokemonListItemModel;
                   selectedPokemon = state.selectedPokemon;
                 }
 
@@ -120,9 +120,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     return PokemonButtonPrimary(
                       isEnabled: isEnabled,
                       onTap: () {
-                        _storageBloc.add(StorageWritten(selectedPokemon!));
+                        // _storageBloc.add(StorageWritten(selectedPokemon!));
                         // print("tapped");
-                        Navigator.of(context).pushReplacementNamed('/details');
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) {
+                          return DetailScreen(
+                            id: selectedPokemon!.id,
+                          );
+                        }));
                       },
                       buttonText: "I Choose You",
                     );
