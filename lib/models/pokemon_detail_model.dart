@@ -71,7 +71,8 @@ class PokemonDetailModel {
     return PokemonDetailModel(
       id: map['id'] as int,
       name: map['name'] as String,
-      imageUrl: map['sprites']['front_default'] as String,
+      imageUrl: (map['sprites']['other']['official-artwork']['front_default'] ??
+          map['sprites']['front_default']) as String,
       weight: map['weight'] as int,
       hp: map['stats'][0]['base_stat'] as int,
       attack: map['stats'][1]['base_stat'] as int,

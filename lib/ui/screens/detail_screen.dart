@@ -3,6 +3,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon_detail/pokemon_detail_bloc.dart";
 import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
 import "package:pokemon_flutter/models/pokemon_detail_model.dart";
+import "package:pokemon_flutter/ui/widgets/pokemon_detail_item.dart";
 
 class DetailScreen extends StatefulWidget {
   final int id;
@@ -61,9 +62,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   }
 
                   PokemonDetailModel data = state.data;
-                  return Column(
-                    children: [Image.network(data.imageUrl)],
-                  );
+                  return PokemonDetailItem(data: data);
                 }),
           )
         ],

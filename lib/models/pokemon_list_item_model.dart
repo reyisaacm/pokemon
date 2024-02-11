@@ -38,7 +38,9 @@ class PokemonListItemModel {
     return PokemonListItemModel(
       id: map['id'] as int,
       name: map['name'] as String,
-      imageUrl: map['sprites']['front_default'] as String,
+      // imageUrl: map['sprites']['front_default'] as String,
+      imageUrl: (map['sprites']['other']['official-artwork']['front_default'] ??
+          map['sprites']['front_default']) as String,
     );
   }
 
