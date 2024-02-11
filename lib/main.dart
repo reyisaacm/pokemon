@@ -4,10 +4,10 @@ import 'package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart';
 import 'package:pokemon_flutter/bloc/storage/storage_bloc.dart';
 import 'package:pokemon_flutter/data/data_provider/storage_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
-import 'package:pokemon_flutter/data/data_provider/pokemon_resource_details_data_provider.dart';
+import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
+import 'package:pokemon_flutter/data/repository/pokemon_detail_repository.dart';
 import 'package:pokemon_flutter/data/repository/storage_repository.dart';
 import 'package:pokemon_flutter/data/repository/pokemon_repository.dart';
-import 'package:pokemon_flutter/ui/screens/detail_screen.dart';
 import 'package:pokemon_flutter/ui/screens/home_screen.dart';
 
 void main() {
@@ -25,10 +25,14 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(
           create: (context) => PokemonRepository(
               PokemonResourceListDataProvider(),
-              PokemonResourceDetailsDataProvider()),
+              PokemonResourceDetailDataProvider()),
         ),
         RepositoryProvider(
           create: (context) => StorageRepository(StorageDataProvider()),
+        ),
+        RepositoryProvider(
+          create: (context) =>
+              PokemonDetailRepository(PokemonResourceDetailDataProvider()),
         ),
       ],
       child: MultiBlocProvider(

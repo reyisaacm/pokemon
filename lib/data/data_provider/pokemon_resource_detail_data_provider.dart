@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 
-class PokemonResourceDetailsDataProvider {
+class PokemonResourceDetailDataProvider {
   Future<String> getResourceDetail(String url) async {
     try {
       final res = await http.get(Uri.parse(url));

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:pokemon_flutter/data/data_provider/pokemon_resource_details_data_provider.dart';
+import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
 import 'package:pokemon_flutter/models/enum/resource_type_enum.dart';
 import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
@@ -9,9 +9,9 @@ import 'package:pokemon_flutter/models/remote/get_pokemon_resource_list_response
 
 class PokemonRepository {
   final PokemonResourceListDataProvider listProvider;
-  final PokemonResourceDetailsDataProvider detailsDataProvider;
+  final PokemonResourceDetailDataProvider detailDataProvider;
 
-  PokemonRepository(this.listProvider, this.detailsDataProvider);
+  PokemonRepository(this.listProvider, this.detailDataProvider);
 
   Future<List<PokemonListItemModel>> getList(int limit, int offset) async {
     try {
@@ -26,7 +26,7 @@ class PokemonRepository {
 
       for (final PokemonResourceListModel a in listPokemon) {
         final String fetchDetailData =
-            await detailsDataProvider.getResourceDetail(a.url);
+            await detailDataProvider.getResourceDetail(a.url);
         final PokemonListItemModel data =
             PokemonListItemModel.fromMap(jsonDecode(fetchDetailData));
         listPokemonDetail.add(data);

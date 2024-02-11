@@ -6,7 +6,7 @@ sealed class StorageState {}
 final class StorageInitial extends StorageState {}
 
 final class StorageSuccess extends StorageState {
-  final PokemonDetailModel? data;
+  final PokemonDetailModel data;
   StorageSuccess(this.data);
 }
 
