@@ -1,4 +1,3 @@
-
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter/foundation.dart";
 import 'package:pokemon_flutter/data/repository/storage_repository.dart';
@@ -13,6 +12,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
   StorageBloc(this.repo) : super(StorageInitial()) {
     on<StorageLoaded>(_readData);
     on<StorageWritten>(_writeData);
+    on<StorageFailed>(_failedData);
   }
 
   void _readData(StorageLoaded event, Emitter<StorageState> emit) async {
@@ -37,5 +37,9 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
       // print(s);
       emit(StorageFailure(e.toString()));
     }
+  }
+
+  void _failedData(StorageFailed event, Emitter<StorageState> emit) async {
+    emit(StorageFailure(event.errorString));
   }
 }

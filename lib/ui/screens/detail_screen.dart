@@ -21,7 +21,7 @@ class _DetailScreenState extends State<DetailScreen> {
     // TODO: implement initState
     super.initState();
     _storageBloc = context.read<StorageBloc>();
-    _storageBloc.add(StorageLoaded());
+    // _storageBloc.add(StorageLoaded());
     _pokemonDetailBloc = context.read<PokemonDetailBloc>();
   }
 
@@ -54,7 +54,20 @@ class _DetailScreenState extends State<DetailScreen> {
                 return Column(
                   children: [Image.network(data.imageUrl)],
                 );
-              })
+              }),
+          BlocListener(
+              bloc: _pokemonDetailBloc,
+              listener: (context, state) {
+                if (state is PokemonDetailSuccess) {
+                  _storageBloc.add(StorageWritten(state.data));
+                }
+                if (state is PokemonDetailFailure) {
+                  _storageBloc.add(StorageFailed(state.error));
+                }
+              },
+              child: const Center(
+                child: Text("Fetching data..."),
+              )),
         ],
       ),
     );

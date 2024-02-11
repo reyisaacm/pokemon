@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart';
+import 'package:pokemon_flutter/bloc/pokemon_detail/pokemon_detail_bloc.dart';
 import 'package:pokemon_flutter/bloc/storage/storage_bloc.dart';
 import 'package:pokemon_flutter/data/data_provider/storage_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
@@ -42,6 +43,10 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => StorageBloc(context.read<StorageRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                PokemonDetailBloc(context.read<PokemonDetailRepository>()),
           ),
         ],
         child: MaterialApp(

@@ -9,3 +9,8 @@ final class StorageWritten extends StorageEvent {
   final PokemonDetailModel data;
   StorageWritten(this.data);
 }
+
+final class StorageFailed extends StorageEvent {
+  final String errorString;
+  StorageFailed(this.errorString);
+}
