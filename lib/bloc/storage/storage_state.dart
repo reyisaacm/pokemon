@@ -14,3 +14,5 @@ final class StorageFailure extends StorageState {
   final String error;
   StorageFailure(this.error);
 }
+
+final class StorageEmpty extends StorageState {}

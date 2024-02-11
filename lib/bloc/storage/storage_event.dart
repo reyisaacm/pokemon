@@ -14,3 +14,5 @@ final class StorageFailed extends StorageEvent {
   final String errorString;
   StorageFailed(this.errorString);
 }
+
+final class StorageDeleted extends StorageEvent {}

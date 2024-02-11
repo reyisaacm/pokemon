@@ -21,8 +21,8 @@ class _DetailScreenState extends State<DetailScreen> {
     // TODO: implement initState
     super.initState();
     _storageBloc = context.read<StorageBloc>();
-    // _storageBloc.add(StorageLoaded());
     _pokemonDetailBloc = context.read<PokemonDetailBloc>();
+    _storageBloc.add(StorageLoaded());
   }
 
   @override
@@ -44,7 +44,7 @@ class _DetailScreenState extends State<DetailScreen> {
             child: BlocBuilder<StorageBloc, StorageState>(
                 bloc: _storageBloc,
                 builder: (context, state) {
-                  if (state is StorageInitial) {
+                  if (state is StorageEmpty) {
                     _pokemonDetailBloc.add(PokemonDetailFetched(widget.id));
                   }
 

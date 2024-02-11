@@ -1,3 +1,4 @@
+import 'dart:convert';
 
 import 'package:pokemon_flutter/data/data_provider/storage_data_provider.dart';
 import 'package:pokemon_flutter/models/pokemon_detail_model.dart';
@@ -9,11 +10,11 @@ class StorageRepository {
   Future<PokemonDetailModel?> getData() async {
     try {
       String storageData = await provider.read();
-      // final jsonData = jsonDecode(storageData);
+      final jsonData = jsonDecode(storageData) as Map<String, dynamic>;
       if (storageData == "") {
         return null;
       } else {
-        PokemonDetailModel model = PokemonDetailModel.fromJson(storageData);
+        PokemonDetailModel model = PokemonDetailModel.fromStorage(jsonData);
         return model;
       }
     } catch (e) {
