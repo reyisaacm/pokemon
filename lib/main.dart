@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart';
 import 'package:pokemon_flutter/bloc/storage/storage_bloc.dart';
 import 'package:pokemon_flutter/data/data_provider/storage_data_provider.dart';
-import 'package:pokemon_flutter/data/data_provider/pokemon_data_provider.dart';
-import 'package:pokemon_flutter/data/data_provider/pokemon_details_data_provider.dart';
+import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
+import 'package:pokemon_flutter/data/data_provider/pokemon_resource_details_data_provider.dart';
 import 'package:pokemon_flutter/data/repository/storage_repository.dart';
 import 'package:pokemon_flutter/data/repository/pokemon_repository.dart';
 import 'package:pokemon_flutter/ui/screens/detail_screen.dart';
@@ -24,7 +24,8 @@ class MyApp extends StatelessWidget {
       providers: [
         RepositoryProvider(
           create: (context) => PokemonRepository(
-              PokemonDataProvider(), PokemonDetailsDataProvider()),
+              PokemonResourceListDataProvider(),
+              PokemonResourceDetailsDataProvider()),
         ),
         RepositoryProvider(
           create: (context) => StorageRepository(StorageDataProvider()),

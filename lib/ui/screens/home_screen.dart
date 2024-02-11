@@ -32,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _pokemonBloc = BlocProvider.of(context);
     _pokemonBloc.add(PokemonFetched(limit, offset));
-    _storageBloc = context.read<StorageBloc>();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==

@@ -1,0 +1,1 @@
+enum ResourceTypeEnum { pokemon, berry }

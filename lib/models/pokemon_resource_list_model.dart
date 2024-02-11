@@ -1,19 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class PokemonModel {
+class PokemonResourceListModel {
   final String name;
   final String url;
-  PokemonModel({
+  PokemonResourceListModel({
     required this.name,
     required this.url,
   });
 
-  PokemonModel copyWith({
+  PokemonResourceListModel copyWith({
     String? name,
     String? url,
   }) {
-    return PokemonModel(
+    return PokemonResourceListModel(
       name: name ?? this.name,
       url: url ?? this.url,
     );
@@ -26,8 +26,8 @@ class PokemonModel {
     };
   }
 
-  factory PokemonModel.fromMap(Map<String, dynamic> map) {
-    return PokemonModel(
+  factory PokemonResourceListModel.fromMap(Map<String, dynamic> map) {
+    return PokemonResourceListModel(
       name: map['name'] as String,
       url: map['url'] as String,
     );
@@ -35,14 +35,15 @@ class PokemonModel {
 
   String toJson() => json.encode(toMap());
 
-  factory PokemonModel.fromJson(String source) =>
-      PokemonModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory PokemonResourceListModel.fromJson(String source) =>
+      PokemonResourceListModel.fromMap(
+          json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'PokemonModel(name: $name, url: $url)';
+  String toString() => 'PokemonResourceListModel(name: $name, url: $url)';
 
   @override
-  bool operator ==(covariant PokemonModel other) {
+  bool operator ==(covariant PokemonResourceListModel other) {
     if (identical(this, other)) return true;
 
     return other.name == name && other.url == url;

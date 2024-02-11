@@ -6,6 +6,6 @@ sealed class StorageEvent {}
 final class StorageLoaded extends StorageEvent {}
 
 final class StorageWritten extends StorageEvent {
-  final PokemonListItemModel data;
+  final PokemonDetailModel data;
   StorageWritten(this.data);
 }

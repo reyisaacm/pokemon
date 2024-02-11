@@ -3,27 +3,27 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:pokemon_flutter/models/pokemon_model.dart';
+import 'package:pokemon_flutter/models/pokemon_resource_list_model.dart';
 
-class GetPokemonResponseModel {
+class GetPokemonResourceListResponseModel {
   final int count;
   final String? next;
   final String? previous;
-  final List<PokemonModel> results;
-  GetPokemonResponseModel({
+  final List<PokemonResourceListModel> results;
+  GetPokemonResourceListResponseModel({
     required this.count,
     required this.next,
     required this.previous,
     required this.results,
   });
 
-  GetPokemonResponseModel copyWith({
+  GetPokemonResourceListResponseModel copyWith({
     int? count,
     String? next,
     String? previous,
-    List<PokemonModel>? results,
+    List<PokemonResourceListModel>? results,
   }) {
-    return GetPokemonResponseModel(
+    return GetPokemonResourceListResponseModel(
       count: count ?? this.count,
       next: next ?? this.next,
       previous: previous ?? this.previous,
@@ -40,14 +40,15 @@ class GetPokemonResponseModel {
     };
   }
 
-  factory GetPokemonResponseModel.fromMap(Map<String, dynamic> map) {
-    return GetPokemonResponseModel(
+  factory GetPokemonResourceListResponseModel.fromMap(
+      Map<String, dynamic> map) {
+    return GetPokemonResourceListResponseModel(
       count: map['count'] as int,
       next: map['next'] as String?,
       previous: map['previous'] as String?,
-      results: List<PokemonModel>.from(
-        (map['results'] as List<dynamic>).map<PokemonModel>(
-          (x) => PokemonModel.fromMap(x as Map<String, dynamic>),
+      results: List<PokemonResourceListModel>.from(
+        (map['results'] as List<dynamic>).map<PokemonResourceListModel>(
+          (x) => PokemonResourceListModel.fromMap(x as Map<String, dynamic>),
         ),
       ),
     );
@@ -55,17 +56,17 @@ class GetPokemonResponseModel {
 
   String toJson() => json.encode(toMap());
 
-  factory GetPokemonResponseModel.fromJson(String source) =>
-      GetPokemonResponseModel.fromMap(
+  factory GetPokemonResourceListResponseModel.fromJson(String source) =>
+      GetPokemonResourceListResponseModel.fromMap(
           json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'GetPokemonResponseModel(count: $count, next: $next, previous: $previous, results: $results)';
+    return 'GetPokemonResourceListResponseModel(count: $count, next: $next, previous: $previous, results: $results)';
   }
 
   @override
-  bool operator ==(covariant GetPokemonResponseModel other) {
+  bool operator ==(covariant GetPokemonResourceListResponseModel other) {
     if (identical(this, other)) return true;
 
     return other.count == count &&

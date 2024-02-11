@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
+import "package:pokemon_flutter/models/pokemon_detail_model.dart";
 import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -43,7 +44,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   );
                 }
 
-                PokemonListItemModel data = state.data;
+                PokemonDetailModel data = state.data!;
                 return Column(
                   children: [Image.network(data.imageUrl)],
                 );

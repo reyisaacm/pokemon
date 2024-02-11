@@ -1,31 +1,32 @@
 import 'dart:convert';
 
-import 'package:pokemon_flutter/data/data_provider/pokemon_data_provider.dart';
-import 'package:pokemon_flutter/data/data_provider/pokemon_details_data_provider.dart';
+import 'package:pokemon_flutter/data/data_provider/pokemon_resource_details_data_provider.dart';
+import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
+import 'package:pokemon_flutter/models/enum/resource_type_enum.dart';
 import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
-import 'package:pokemon_flutter/models/pokemon_model.dart';
-import 'package:pokemon_flutter/models/remote/get_pokemon_response_model.dart';
+import 'package:pokemon_flutter/models/pokemon_resource_list_model.dart';
+import 'package:pokemon_flutter/models/remote/get_pokemon_resource_list_response_model.dart';
 
 class PokemonRepository {
-  final PokemonDataProvider pokemonDataProvider;
-  final PokemonDetailsDataProvider pokemonDetailDataProvider;
+  final PokemonResourceListDataProvider listProvider;
+  final PokemonResourceDetailsDataProvider detailsDataProvider;
 
-  PokemonRepository(this.pokemonDataProvider, this.pokemonDetailDataProvider);
+  PokemonRepository(this.listProvider, this.detailsDataProvider);
 
   Future<List<PokemonListItemModel>> getList(int limit, int offset) async {
     try {
-      final String pokemonListData =
-          await pokemonDataProvider.getPokemonList(limit, offset);
+      final String pokemonListData = await listProvider.getResourceList(
+          limit, offset, ResourceTypeEnum.pokemon.name);
       final jsonDecoded = jsonDecode(pokemonListData);
-      final GetPokemonResponseModel listData =
-          GetPokemonResponseModel.fromMap(jsonDecoded);
-      final List<PokemonModel> listPokemon = listData.results;
+      final GetPokemonResourceListResponseModel listData =
+          GetPokemonResourceListResponseModel.fromMap(jsonDecoded);
+      final List<PokemonResourceListModel> listPokemon = listData.results;
 
       final List<PokemonListItemModel> listPokemonDetail = [];
 
-      for (final PokemonModel a in listPokemon) {
+      for (final PokemonResourceListModel a in listPokemon) {
         final String fetchDetailData =
-            await pokemonDetailDataProvider.getPokemonDetail(a.url);
+            await detailsDataProvider.getResourceDetail(a.url);
         final PokemonListItemModel data =
             PokemonListItemModel.fromMap(jsonDecode(fetchDetailData));
         listPokemonDetail.add(data);

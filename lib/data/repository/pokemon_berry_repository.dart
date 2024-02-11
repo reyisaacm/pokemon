@@ -1,38 +1,23 @@
 import 'dart:convert';
 
-import 'package:pokemon_flutter/data/data_provider/pokemon_berry_data_provider.dart';
-import 'package:pokemon_flutter/data/data_provider/pokemon_details_data_provider.dart';
+import 'package:pokemon_flutter/data/data_provider/pokemon_resource_details_data_provider.dart';
+import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
+import 'package:pokemon_flutter/models/berry_model.dart';
 import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
-import 'package:pokemon_flutter/models/pokemon_model.dart';
-import 'package:pokemon_flutter/models/remote/get_pokemon_response_model.dart';
+import 'package:pokemon_flutter/models/pokemon_resource_list_model.dart';
+import 'package:pokemon_flutter/models/remote/get_pokemon_resource_list_response_model.dart';
 
 class PokemonBerryRepository {
-  final PokemonBerryDataProvider pokemonBerryDataProvider;
-  final PokemonDetailsDataProvider pokemonDetailDataProvider;
+  final PokemonResourceListDataProvider listDataProvider;
+  final PokemonResourceDetailsDataProvider detailDataProvider;
 
-  PokemonBerryRepository(
-      this.pokemonBerryDataProvider, this.pokemonDetailDataProvider);
+  PokemonBerryRepository(this.listDataProvider, this.detailDataProvider);
 
-  Future<List<PokemonListItemModel>> getList(int limit, int offset) async {
+  Future<List<BerryModel>> getList(int limit, int offset) async {
     try {
-      final String pokemonListData =
-          await pokemonBerryDataProvider.getPokemonList(limit, offset);
-      final jsonDecoded = jsonDecode(pokemonListData);
-      final GetPokemonResponseModel listData =
-          GetPokemonResponseModel.fromMap(jsonDecoded);
-      final List<PokemonModel> listPokemon = listData.results;
+      List<BerryModel> model = List.empty();
 
-      final List<PokemonListItemModel> listPokemonDetail = [];
-
-      for (final PokemonModel a in listPokemon) {
-        final String fetchDetailData =
-            await pokemonDetailDataProvider.getPokemonDetail(a.url);
-        final PokemonListItemModel data =
-            PokemonListItemModel.fromMap(jsonDecode(fetchDetailData));
-        listPokemonDetail.add(data);
-      }
-
-      return listPokemonDetail;
+      return model;
     } catch (e) {
       // print(s);
       throw e.toString();
