@@ -21,7 +21,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
       if (data != null) {
         emit(StorageSuccess(data));
       } else {
-        emit(StorageInitial());
+        emit(StorageEmpty());
       }
     } catch (e) {
       // print(s);

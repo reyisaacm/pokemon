@@ -56,8 +56,8 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          // home: const HomeScreen(),
-          home: const DetailScreen(id: 1),
+          home: const HomeScreen(),
+          // home: const DetailScreen(id: 1),
         ),
       ),
     );

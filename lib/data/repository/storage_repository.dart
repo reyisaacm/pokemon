@@ -10,10 +10,11 @@ class StorageRepository {
   Future<PokemonDetailModel?> getData() async {
     try {
       String storageData = await provider.read();
-      final jsonData = jsonDecode(storageData) as Map<String, dynamic>;
       if (storageData == "") {
         return null;
       } else {
+        final jsonData = jsonDecode(storageData) as Map<String, dynamic>;
+
         PokemonDetailModel model = PokemonDetailModel.fromStorage(jsonData);
         return model;
       }
