@@ -1,13 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class BerryModel {
+class PokemonBerryModel {
   int id;
   String firmness;
   String name;
   String imageUrl;
   int weight;
-  BerryModel({
+  PokemonBerryModel({
     required this.id,
     required this.firmness,
     required this.name,
@@ -15,14 +15,14 @@ class BerryModel {
     required this.weight,
   });
 
-  BerryModel copyWith({
+  PokemonBerryModel copyWith({
     int? id,
     String? firmness,
     String? name,
     String? imageUrl,
     int? weight,
   }) {
-    return BerryModel(
+    return PokemonBerryModel(
       id: id ?? this.id,
       firmness: firmness ?? this.firmness,
       name: name ?? this.name,
@@ -41,11 +41,11 @@ class BerryModel {
     };
   }
 
-  factory BerryModel.fromMap(Map<String, dynamic> map) {
-    return BerryModel(
+  factory PokemonBerryModel.fromMap(Map<String, dynamic> map) {
+    return PokemonBerryModel(
       id: map['id'] as int,
-      firmness: map['firmness'] as String,
-      name: map['name'] as String,
+      firmness: map['firmness']['name'] as String,
+      name: map['item']['name'] as String,
       imageUrl: map['imageUrl'] as String,
       weight: map['weight'] as int,
     );
@@ -53,16 +53,16 @@ class BerryModel {
 
   String toJson() => json.encode(toMap());
 
-  factory BerryModel.fromJson(String source) =>
-      BerryModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory PokemonBerryModel.fromJson(String source) =>
+      PokemonBerryModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'BerryModel(id: $id, firmness: $firmness, name: $name, imageUrl: $imageUrl, weight: $weight)';
+    return 'PokemonBerryModel(id: $id, firmness: $firmness, name: $name, imageUrl: $imageUrl, weight: $weight)';
   }
 
   @override
-  bool operator ==(covariant BerryModel other) {
+  bool operator ==(covariant PokemonBerryModel other) {
     if (identical(this, other)) return true;
 
     return other.id == id &&

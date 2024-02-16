@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokemon_flutter/bloc/bloc/pokemon_berry_bloc.dart';
 import 'package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart';
 import 'package:pokemon_flutter/bloc/pokemon_detail/pokemon_detail_bloc.dart';
 import 'package:pokemon_flutter/bloc/storage/storage_bloc.dart';
 import 'package:pokemon_flutter/data/data_provider/storage_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
+import 'package:pokemon_flutter/data/repository/pokemon_berry_repository.dart';
 import 'package:pokemon_flutter/data/repository/pokemon_detail_repository.dart';
 import 'package:pokemon_flutter/data/repository/storage_repository.dart';
 import 'package:pokemon_flutter/data/repository/pokemon_repository.dart';
@@ -36,6 +38,11 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               PokemonDetailRepository(PokemonResourceDetailDataProvider()),
         ),
+        RepositoryProvider(
+          create: (context) => PokemonBerryRepository(
+              PokemonResourceListDataProvider(),
+              PokemonResourceDetailDataProvider()),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -48,6 +55,10 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 PokemonDetailBloc(context.read<PokemonDetailRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                PokemonBerryBloc(context.read<PokemonBerryRepository>()),
           ),
         ],
         child: MaterialApp(
