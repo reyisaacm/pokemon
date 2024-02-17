@@ -13,10 +13,33 @@ class PokemonBerryRepository {
 
   PokemonBerryRepository(this.listProvider, this.detailProvider);
 
+  int _getFirmnessWeight(String firmness) {
+    switch (firmness.toLowerCase()) {
+      case 'very-soft':
+        return 2;
+      case 'soft':
+        return 3;
+      case 'hard':
+        return 5;
+      case 'very-hard':
+        return 8;
+      case 'super-hard':
+        return 10;
+      default:
+        return 1;
+    }
+  }
+
   Future<List<PokemonBerryModel>> getList() async {
     try {
+      final String listDataCount =
+          await listProvider.getResourceList(1, 0, ResourceTypeEnum.berry.name);
+      Map<String, dynamic> jsonListDataCount = jsonDecode(listDataCount);
+      final int limit = jsonListDataCount['count'];
+
       final String listData = await listProvider.getResourceList(
-          100, 0, ResourceTypeEnum.berry.name);
+          limit, 0, ResourceTypeEnum.berry.name);
+
       final jsonDecoded = jsonDecode(listData);
       final GetPokemonResourceListResponseModel listResourceData =
           GetPokemonResourceListResponseModel.fromMap(jsonDecoded);
@@ -27,8 +50,16 @@ class PokemonBerryRepository {
       for (final PokemonResourceListModel a in listObj) {
         final String fetchDetailData =
             await detailProvider.getResourceDetail(a.url);
+        Map<String, dynamic> jsonDetailData = jsonDecode(fetchDetailData);
+        final String fetchItemData = await detailProvider
+            .getResourceDetail(jsonDetailData['item']['url']);
+        Map<String, dynamic> jsonItemData = jsonDecode(fetchItemData);
+        final String firmness = jsonDetailData['firmness']['name'];
+
+        jsonDetailData['imageUrl'] = jsonItemData['sprites']['default'];
+        jsonDetailData['weight'] = _getFirmnessWeight(firmness);
         final PokemonBerryModel data =
-            PokemonBerryModel.fromMap(jsonDecode(fetchDetailData));
+            PokemonBerryModel.fromMap(jsonDetailData);
         listBerry.add(data);
       }
 

@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import 'package:pokemon_flutter/bloc/bloc/pokemon_berry_bloc.dart';
+import "package:pokemon_flutter/bloc/pokemon_berry/pokemon_berry_bloc.dart";
 
 class PokemonBerryList extends StatefulWidget {
   const PokemonBerryList({
@@ -40,12 +40,19 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
 
       final data = state.listData;
 
-      return (ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            return (Image.network(data[index].imageUrl));
-          }));
+      return SizedBox(
+        width: 300,
+        height: 50,
+        child: (ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                width: 50,
+                child: (Image.network(data[index].imageUrl)),
+              );
+            })),
+      );
     }));
   }
 }
