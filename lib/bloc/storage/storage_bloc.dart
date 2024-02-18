@@ -13,6 +13,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
     on<StorageLoaded>(_readData);
     on<StorageWritten>(_writeData);
     on<StorageFailed>(_failedData);
+    on<StorageWeightUpdated>(_updateWeightData);
   }
 
   void _readData(StorageLoaded event, Emitter<StorageState> emit) async {
@@ -41,5 +42,30 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
 
   void _failedData(StorageFailed event, Emitter<StorageState> emit) async {
     emit(StorageFailure(event.errorString));
+  }
+
+  void _updateWeightData(
+      StorageWeightUpdated event, Emitter<StorageState> emit) async {
+    try {
+      final PokemonDetailModel? data = await repo.getData();
+      if (data != null) {
+        if (event.berryType == data.previousBerryType) {
+          data.weight = data.weight - (event.weight * 2);
+          if (data.weight < 0) {
+            data.weight = 0;
+          }
+        } else {
+          data.weight = data.weight + event.weight;
+        }
+        data.previousBerryType = event.berryType;
+        final PokemonDetailModel updatedData = await repo.writeData(data);
+        emit(StorageSuccess(updatedData));
+      } else {
+        emit(StorageFailure("Internal server error"));
+      }
+    } catch (e) {
+      // print(s);
+      emit(StorageFailure(e.toString()));
+    }
   }
 }

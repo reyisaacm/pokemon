@@ -15,7 +15,7 @@ class PokemonButtonPrimary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      // padding: const EdgeInsets.symmetric(vertical: 12),
       width: double.infinity,
       child: ElevatedButton(
         // style: const ButtonStyle(
@@ -27,8 +27,8 @@ class PokemonButtonPrimary extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             disabledForegroundColor: Colors.grey[700],
             disabledBackgroundColor: Colors.grey[300],
-            padding: const EdgeInsets.symmetric(vertical: 24),
-            backgroundColor: Colors.green),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            backgroundColor: Theme.of(context).colorScheme.primary),
         onPressed: isEnabled ? onTap : null,
         child: Text(
           buttonText,

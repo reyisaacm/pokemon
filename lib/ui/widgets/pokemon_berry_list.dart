@@ -1,7 +1,10 @@
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon_berry/pokemon_berry_bloc.dart";
+import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
 import "package:pokemon_flutter/models/pokemon_berry_model.dart";
+import "package:pokemon_flutter/models/pokemon_detail_model.dart";
+import "package:pokemon_flutter/ui/widgets/pokemon_button_primary.dart";
 
 class PokemonBerryList extends StatefulWidget {
   const PokemonBerryList({
@@ -14,14 +17,17 @@ class PokemonBerryList extends StatefulWidget {
 
 class _PokemonBerryListState extends State<PokemonBerryList> {
   late PokemonBerryBloc _pokemonBerryBloc;
+  late StorageBloc _storageBloc;
   List<PokemonBerryModel> data = [];
-  late PokemonBerryModel? selectedData;
+  PokemonBerryModel? selectedData;
+  bool isEnableButton = false;
 
   @override
   void initState() {
     super.initState();
     _pokemonBerryBloc = BlocProvider.of(context);
     _pokemonBerryBloc.add(BerryFetched());
+    _storageBloc = BlocProvider.of(context);
   }
 
   @override
@@ -74,12 +80,22 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
                   );
                 })),
           ),
+          Text(selectedData != null
+              ? "${selectedData!.name} (${selectedData!.firmness})"
+              : ""),
           const SizedBox(
             height: 10,
           ),
-          Text(selectedData != null
-              ? "${selectedData!.name} (${selectedData!.firmness})"
-              : "")
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.75,
+            child: PokemonButtonPrimary(
+                isEnabled: selectedData != null ? true : false,
+                onTap: () {
+                  _storageBloc.add(StorageWeightUpdated(
+                      selectedData!.weight, selectedData!.firmness));
+                },
+                buttonText: "Feed Pokemon"),
+          )
         ],
       );
     }));

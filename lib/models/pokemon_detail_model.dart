@@ -5,51 +5,53 @@ class PokemonDetailModel {
   final int id;
   final String name;
   final String imageUrl;
-  final int weight;
   final int hp;
   final int attack;
   final int defense;
   final int specialAttack;
   final int specialDefense;
   final int speed;
+  int weight;
+  String previousBerryType = "";
 
-  PokemonDetailModel({
-    required this.id,
-    required this.name,
-    required this.imageUrl,
-    required this.weight,
-    required this.hp,
-    required this.attack,
-    required this.defense,
-    required this.specialAttack,
-    required this.specialDefense,
-    required this.speed,
-  });
+  PokemonDetailModel(
+      {required this.id,
+      required this.name,
+      required this.imageUrl,
+      required this.weight,
+      required this.hp,
+      required this.attack,
+      required this.defense,
+      required this.specialAttack,
+      required this.specialDefense,
+      required this.speed,
+      required this.previousBerryType});
 
   PokemonDetailModel copyWith({
     int? id,
     String? name,
     String? imageUrl,
-    int? weight,
     int? hp,
     int? attack,
     int? defense,
     int? specialAttack,
     int? specialDefense,
     int? speed,
+    int? weight,
+    String? previousBerryType,
   }) {
     return PokemonDetailModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      imageUrl: imageUrl ?? this.imageUrl,
-      weight: weight ?? this.weight,
-      hp: hp ?? this.hp,
-      attack: attack ?? this.attack,
-      defense: defense ?? this.defense,
-      specialAttack: specialAttack ?? this.specialAttack,
-      specialDefense: specialDefense ?? this.specialDefense,
-      speed: speed ?? this.speed,
-    );
+        id: id ?? this.id,
+        name: name ?? this.name,
+        imageUrl: imageUrl ?? this.imageUrl,
+        weight: weight ?? this.weight,
+        hp: hp ?? this.hp,
+        attack: attack ?? this.attack,
+        defense: defense ?? this.defense,
+        specialAttack: specialAttack ?? this.specialAttack,
+        specialDefense: specialDefense ?? this.specialDefense,
+        speed: speed ?? this.speed,
+        previousBerryType: previousBerryType ?? this.previousBerryType);
   }
 
   Map<String, dynamic> toMap() {
@@ -64,6 +66,7 @@ class PokemonDetailModel {
       'specialAttack': specialAttack,
       'specialDefense': specialDefense,
       'speed': speed,
+      'previousBerryType': previousBerryType
     };
   }
 
@@ -80,6 +83,7 @@ class PokemonDetailModel {
       specialAttack: map['stats'][3]['base_stat'] as int,
       specialDefense: map['stats'][4]['base_stat'] as int,
       speed: map['stats'][5]['base_stat'] as int,
+      previousBerryType: map['previousBerryType'] ?? "",
     );
   }
 
@@ -95,6 +99,7 @@ class PokemonDetailModel {
       specialAttack: map['specialAttack'] as int,
       specialDefense: map['specialDefense'] as int,
       speed: map['speed'] as int,
+      previousBerryType: map['previousBerryType'] ?? "",
     );
   }
 

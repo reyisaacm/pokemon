@@ -113,19 +113,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   } else {
-                    return PokemonButtonPrimary(
-                      isEnabled: isEnabled,
-                      onTap: () {
-                        // _storageBloc.add(StorageWritten(selectedPokemon!));
-                        // print("tapped");
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) {
-                          return DetailScreen(
-                            id: selectedPokemon!.id,
-                          );
-                        }));
-                      },
-                      buttonText: "I Choose You",
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: PokemonButtonPrimary(
+                        isEnabled: isEnabled,
+                        onTap: () {
+                          // _storageBloc.add(StorageWritten(selectedPokemon!));
+                          // print("tapped");
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (context) {
+                            return DetailScreen(
+                              id: selectedPokemon!.id,
+                            );
+                          }));
+                        },
+                        buttonText: "I Choose You",
+                      ),
                     );
                   }
                 },

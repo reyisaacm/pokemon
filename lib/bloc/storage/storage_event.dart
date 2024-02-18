@@ -15,4 +15,10 @@ final class StorageFailed extends StorageEvent {
   StorageFailed(this.errorString);
 }
 
+final class StorageWeightUpdated extends StorageEvent {
+  final int weight;
+  final String berryType;
+  StorageWeightUpdated(this.weight, this.berryType);
+}
+
 final class StorageDeleted extends StorageEvent {}
