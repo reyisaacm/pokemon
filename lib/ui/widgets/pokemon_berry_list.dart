@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon_berry/pokemon_berry_bloc.dart";
+import "package:pokemon_flutter/models/pokemon_berry_model.dart";
 
 class PokemonBerryList extends StatefulWidget {
   const PokemonBerryList({
@@ -13,10 +14,11 @@ class PokemonBerryList extends StatefulWidget {
 
 class _PokemonBerryListState extends State<PokemonBerryList> {
   late PokemonBerryBloc _pokemonBerryBloc;
+  List<PokemonBerryModel> data = [];
+  late PokemonBerryModel? selectedData;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _pokemonBerryBloc = BlocProvider.of(context);
     _pokemonBerryBloc.add(BerryFetched());
@@ -32,26 +34,53 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
         );
       }
 
-      if (state is! PokemonBerrySuccess) {
+      if (state is PokemonBerryLoading) {
         return const Center(
           child: CircularProgressIndicator.adaptive(),
         );
       }
 
-      final data = state.listData;
+      if (state is PokemonBerrySuccess) {
+        data.addAll(state.listData);
+      }
 
-      return SizedBox(
-        width: 300,
-        height: 50,
-        child: (ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              return SizedBox(
-                width: 50,
-                child: (Image.network(data[index].imageUrl)),
-              );
-            })),
+      if (state is PokemonBerrySelect) {
+        data = state.listPokemonBerryModel;
+        selectedData = state.selectedBerry;
+      }
+
+      return Column(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.75,
+            height: 50,
+            decoration: BoxDecoration(
+                border: Border.all(), borderRadius: BorderRadius.circular(5)),
+            child: (ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  bool isSelected = data[index].isSelected;
+                  return GestureDetector(
+                    onTap: () {
+                      _pokemonBerryBloc.add(BerrySelected(data, index));
+                    },
+                    child: Container(
+                      color: isSelected
+                          ? const Color.fromRGBO(236, 236, 236, 1)
+                          : null,
+                      child: Image.network(data[index].imageUrl),
+                    ),
+                  );
+                })),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(selectedData != null
+              ? "${selectedData!.name} (${selectedData!.firmness})"
+              : "")
+        ],
       );
     }));
   }

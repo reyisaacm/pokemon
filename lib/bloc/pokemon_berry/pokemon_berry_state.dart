@@ -18,3 +18,10 @@ final class PokemonBerryFailure extends PokemonBerryState {
 }
 
 final class PokemonBerryLoading extends PokemonBerryState {}
+
+final class PokemonBerrySelect extends PokemonBerryState {
+  final List<PokemonBerryModel> listPokemonBerryModel;
+  final PokemonBerryModel? selectedBerry;
+
+  PokemonBerrySelect(this.listPokemonBerryModel, this.selectedBerry);
+}

@@ -1,4 +1,3 @@
-
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart";
@@ -27,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _pokemonBloc = BlocProvider.of(context);
     _pokemonBloc.add(PokemonFetched(limit, offset));

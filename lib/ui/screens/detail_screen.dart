@@ -19,7 +19,6 @@ class _DetailScreenState extends State<DetailScreen> {
   late PokemonDetailBloc _pokemonDetailBloc;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _storageBloc = context.read<StorageBloc>();
     _pokemonDetailBloc = context.read<PokemonDetailBloc>();

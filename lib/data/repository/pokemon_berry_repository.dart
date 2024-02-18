@@ -46,20 +46,34 @@ class PokemonBerryRepository {
       final List<PokemonResourceListModel> listObj = listResourceData.results;
 
       final List<PokemonBerryModel> listBerry = [];
+      List<Future<String>> listDetailToFetch = [];
+      List<Future<String>> listItemToFetch = [];
+      List<Map<String, dynamic>> listJsonDetailData = [];
 
       for (final PokemonResourceListModel a in listObj) {
-        final String fetchDetailData =
-            await detailProvider.getResourceDetail(a.url);
-        Map<String, dynamic> jsonDetailData = jsonDecode(fetchDetailData);
-        final String fetchItemData = await detailProvider
-            .getResourceDetail(jsonDetailData['item']['url']);
-        Map<String, dynamic> jsonItemData = jsonDecode(fetchItemData);
-        final String firmness = jsonDetailData['firmness']['name'];
+        listDetailToFetch.add(detailProvider.getResourceDetail(a.url));
+      }
 
-        jsonDetailData['imageUrl'] = jsonItemData['sprites']['default'];
-        jsonDetailData['weight'] = _getFirmnessWeight(firmness);
+      List<String> listDetail = await Future.wait(listDetailToFetch);
+
+      for (final String a in listDetail) {
+        Map<String, dynamic> jsonDetailData = jsonDecode(a);
+        listJsonDetailData.add(jsonDetailData);
+        listItemToFetch.add(
+            detailProvider.getResourceDetail(jsonDetailData['item']['url']));
+      }
+
+      List<String> listItemDetail = await Future.wait(listItemToFetch);
+
+      for (int i = 0; i < listJsonDetailData.length; i++) {
+        final String firmness = listJsonDetailData[i]['firmness']['name'];
+        final Map<String, dynamic> jsonItemDetail =
+            jsonDecode(listItemDetail[i]);
+        listJsonDetailData[i]['imageUrl'] =
+            jsonItemDetail['sprites']['default'];
+        listJsonDetailData[i]['weight'] = _getFirmnessWeight(firmness);
         final PokemonBerryModel data =
-            PokemonBerryModel.fromMap(jsonDetailData);
+            PokemonBerryModel.fromMap(listJsonDetailData[i]);
         listBerry.add(data);
       }
 

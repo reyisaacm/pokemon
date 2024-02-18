@@ -13,6 +13,7 @@ import 'package:pokemon_flutter/data/repository/pokemon_detail_repository.dart';
 import 'package:pokemon_flutter/data/repository/storage_repository.dart';
 import 'package:pokemon_flutter/data/repository/pokemon_repository.dart';
 import 'package:pokemon_flutter/ui/screens/detail_screen.dart';
+import 'package:pokemon_flutter/ui/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());

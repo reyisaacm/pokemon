@@ -23,12 +23,15 @@ class PokemonRepository {
       final List<PokemonResourceListModel> listPokemon = listData.results;
 
       final List<PokemonListItemModel> listPokemonDetail = [];
-
+      final List<Future<String>> listDetailToFetch = [];
       for (final PokemonResourceListModel a in listPokemon) {
-        final String fetchDetailData =
-            await detailDataProvider.getResourceDetail(a.url);
+        listDetailToFetch.add(detailDataProvider.getResourceDetail(a.url));
+      }
+
+      final List<String> listDetail = await Future.wait(listDetailToFetch);
+      for (String a in listDetail) {
         final PokemonListItemModel data =
-            PokemonListItemModel.fromMap(jsonDecode(fetchDetailData));
+            PokemonListItemModel.fromMap(jsonDecode(a));
         listPokemonDetail.add(data);
       }
 

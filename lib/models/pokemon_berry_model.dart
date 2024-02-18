@@ -7,6 +7,7 @@ class PokemonBerryModel {
   String name;
   String imageUrl;
   int weight;
+  bool isSelected = false;
   PokemonBerryModel({
     required this.id,
     required this.firmness,
