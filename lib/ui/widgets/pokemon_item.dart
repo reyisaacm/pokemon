@@ -16,7 +16,7 @@ class PokememonItem extends StatelessWidget {
     return Column(
       children: [
         Container(
-          color: isSelected ? const Color.fromRGBO(236, 236, 236, 1) : null,
+          color: isSelected ? Theme.of(context).colorScheme.tertiary : null,
           child: Image.network(imageUrl),
         )
       ],

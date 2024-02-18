@@ -73,7 +73,7 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
                     },
                     child: Container(
                       color: isSelected
-                          ? const Color.fromRGBO(236, 236, 236, 1)
+                          ? Theme.of(context).colorScheme.tertiary
                           : null,
                       child: Image.network(data[index].imageUrl),
                     ),
