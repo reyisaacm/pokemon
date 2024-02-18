@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:pokemon_flutter/models/pokemon_detail_model.dart";
+import "package:pokemon_flutter/ui/screens/home_screen.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_berry_list.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_detail_item_attribute.dart";
 
@@ -25,10 +26,21 @@ class PokemonDetailItem extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          Image.network(
-            data.imageUrl,
-            height: 200,
-          ),
+          Stack(children: [
+            Image.network(
+              data.imageUrl,
+              height: 200,
+            ),
+            Positioned(
+                right: 0,
+                child: GestureDetector(
+                  onTap: () => _dialogBuilder(context),
+                  child: const Icon(
+                    Icons.highlight_remove_sharp,
+                    color: Colors.red,
+                  ),
+                ))
+          ]),
           const SizedBox(
             height: 15,
           ),
@@ -58,6 +70,41 @@ class PokemonDetailItem extends StatelessWidget {
           const PokemonBerryList()
         ],
       ),
+    );
+  }
+
+  Future<void> _dialogBuilder(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete pokemon'),
+          content: const Text('Are you sure to delete this pokemon?'),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Yes'),
+              onPressed: () {
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: (context) {
+                  return const HomeScreen();
+                }));
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
