@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart';
 import 'package:pokemon_flutter/bloc/pokemon_berry/pokemon_berry_bloc.dart';
 import 'package:pokemon_flutter/bloc/pokemon_detail/pokemon_detail_bloc.dart';
+import 'package:pokemon_flutter/bloc/startup/startup_bloc.dart';
 import 'package:pokemon_flutter/bloc/storage/storage_bloc.dart';
 import 'package:pokemon_flutter/data/data_provider/storage_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
@@ -14,6 +15,7 @@ import 'package:pokemon_flutter/data/repository/storage_repository.dart';
 import 'package:pokemon_flutter/data/repository/pokemon_repository.dart';
 import 'package:pokemon_flutter/ui/screens/detail_screen.dart';
 import 'package:pokemon_flutter/ui/screens/home_screen.dart';
+import 'package:pokemon_flutter/ui/screens/startup_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -61,6 +63,9 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 PokemonBerryBloc(context.read<PokemonBerryRepository>()),
           ),
+          BlocProvider(
+            create: (context) => StartupBloc(context.read<StorageRepository>()),
+          ),
         ],
         child: MaterialApp(
             title: 'Pokemon App',
@@ -70,11 +75,7 @@ class MyApp extends StatelessWidget {
             ),
             // home: const HomeScreen(),
             // home: const DetailScreen(id: 1),
-            home: BlocBuilder<StorageBloc, StorageState>(
-              builder: (context, state) {
-                return const HomeScreen();
-              },
-            )),
+            home: const StartupScreen()),
       ),
     );
   }
