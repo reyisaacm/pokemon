@@ -34,4 +34,13 @@ class StorageRepository {
       throw e.toString();
     }
   }
+
+  Future<void> clearData() async {
+    try {
+      await provider.write("");
+    } catch (e) {
+      // print(s);
+      throw e.toString();
+    }
+  }
 }

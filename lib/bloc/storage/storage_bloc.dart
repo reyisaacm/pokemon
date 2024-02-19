@@ -14,6 +14,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
     on<StorageWritten>(_writeData);
     on<StorageFailed>(_failedData);
     on<StorageWeightUpdated>(_updateWeightData);
+    on<StorageDeleted>(_clearData);
   }
 
   void _readData(StorageLoaded event, Emitter<StorageState> emit) async {
@@ -65,6 +66,14 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
       }
     } catch (e) {
       // print(s);
+      emit(StorageFailure(e.toString()));
+    }
+  }
+
+  void _clearData(StorageDeleted event, Emitter<StorageState> emit) async {
+    try {
+      await repo.clearData();
+    } catch (e) {
       emit(StorageFailure(e.toString()));
     }
   }

@@ -1,12 +1,28 @@
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
 import "package:pokemon_flutter/models/pokemon_detail_model.dart";
 import "package:pokemon_flutter/ui/screens/home_screen.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_berry_list.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_detail_item_attribute.dart";
 
-class PokemonDetailItem extends StatelessWidget {
+class PokemonDetailItem extends StatefulWidget {
   final PokemonDetailModel data;
   const PokemonDetailItem({super.key, required this.data});
+
+  @override
+  State<PokemonDetailItem> createState() => _PokemonDetailItemState();
+}
+
+class _PokemonDetailItemState extends State<PokemonDetailItem> {
+  late StorageBloc _storageBloc;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _storageBloc = BlocProvider.of(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +33,7 @@ class PokemonDetailItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "${data.name[0].toUpperCase()}${data.name.substring(1).toLowerCase()}",
+                "${widget.data.name[0].toUpperCase()}${widget.data.name.substring(1).toLowerCase()}",
                 style:
                     const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
@@ -28,7 +44,7 @@ class PokemonDetailItem extends StatelessWidget {
           ),
           Stack(children: [
             Image.network(
-              data.imageUrl,
+              widget.data.imageUrl,
               height: 200,
             ),
             Positioned(
@@ -46,7 +62,7 @@ class PokemonDetailItem extends StatelessWidget {
           ),
           PokemonDetailItemAttribute(
             name: "HP",
-            value: "${data.hp}",
+            value: "${widget.data.hp}",
           ),
           const PokemonDetailItemAttribute(
             name: "Attack",
@@ -54,15 +70,15 @@ class PokemonDetailItem extends StatelessWidget {
           ),
           PokemonDetailItemAttribute(
             name: "Defense",
-            value: "${data.defense}",
+            value: "${widget.data.defense}",
           ),
           PokemonDetailItemAttribute(
             name: "Speed",
-            value: "${data.speed}",
+            value: "${widget.data.speed}",
           ),
           PokemonDetailItemAttribute(
             name: "Weight",
-            value: "${data.weight}",
+            value: "${widget.data.weight}",
           ),
           const SizedBox(
             height: 15,
@@ -96,6 +112,7 @@ class PokemonDetailItem extends StatelessWidget {
               ),
               child: const Text('Yes'),
               onPressed: () {
+                _storageBloc.add(StorageDeleted());
                 Navigator.of(context)
                     .pushReplacement(MaterialPageRoute(builder: (context) {
                   return const HomeScreen();
