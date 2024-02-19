@@ -63,14 +63,18 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
-          title: 'Pokemon App',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-            useMaterial3: true,
-          ),
-          // home: const HomeScreen(),
-          home: const DetailScreen(id: 1),
-        ),
+            title: 'Pokemon App',
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+              useMaterial3: true,
+            ),
+            // home: const HomeScreen(),
+            // home: const DetailScreen(id: 1),
+            home: BlocBuilder<StorageBloc, StorageState>(
+              builder: (context, state) {
+                return const HomeScreen();
+              },
+            )),
       ),
     );
   }
