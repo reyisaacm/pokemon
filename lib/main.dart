@@ -15,15 +15,19 @@ import 'package:pokemon_flutter/data/repository/storage_repository.dart';
 import 'package:pokemon_flutter/data/repository/pokemon_repository.dart';
 import 'package:pokemon_flutter/ui/screens/detail_screen.dart';
 import 'package:pokemon_flutter/ui/screens/home_screen.dart';
-import 'package:pokemon_flutter/ui/screens/startup_screen.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -68,14 +72,30 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
-            title: 'Pokemon App',
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-              useMaterial3: true,
-            ),
-            // home: const HomeScreen(),
-            // home: const DetailScreen(id: 1),
-            home: const StartupScreen()),
+          title: 'Pokemon App',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+            useMaterial3: true,
+          ),
+          // home: const HomeScreen(),
+          // home: const DetailScreen(id: 1),
+          home: BlocBuilder<StartupBloc, StartupState>(
+            builder: (context, state) {
+              StartupBloc _startupBloc = context.read<StartupBloc>();
+              _startupBloc.add(StartupLoaded());
+              if (state is! StartupSuccess) {
+                return const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                );
+              }
+              if (state.destination == 'detail') {
+                return DetailScreen(id: state.id);
+              } else {
+                return const HomeScreen();
+              }
+            },
+          ),
+        ),
       ),
     );
   }
