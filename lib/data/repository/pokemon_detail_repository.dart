@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
+import 'package:pokemon_flutter/models/enum/resource_type_enum.dart';
 import 'package:pokemon_flutter/models/pokemon_detail_model.dart';
 
 class PokemonDetailRepository {
@@ -12,9 +13,13 @@ class PokemonDetailRepository {
     try {
       PokemonDetailModel data;
 
-      final String fetchDetailData = await detailsDataProvider
-          .getResourceDetail("https://pokeapi.co/api/v2/pokemon/$id");
+      final String fetchDetailData =
+          await detailsDataProvider.getResourceDetail(
+              "https://pokeapi.co/api/v2/${ResourceTypeEnum.pokemon}/$id");
       data = PokemonDetailModel.fromMap(jsonDecode(fetchDetailData));
+
+      final String fetchSpeciesData = await detailsDataProvider
+          .getResourceDetail("https://pokeapi.co/api/v2/pokemon-species/$id");
 
       return data;
     } catch (e) {
