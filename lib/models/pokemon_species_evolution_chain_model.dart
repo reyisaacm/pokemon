@@ -2,29 +2,35 @@
 import 'dart:convert';
 
 class PokemonSpeciesEvolutionChainModel {
-  final String? url;
+  final int id;
+  final int weight;
 
   PokemonSpeciesEvolutionChainModel(
-    this.url,
+    this.id,
+    this.weight,
   );
 
   PokemonSpeciesEvolutionChainModel copyWith({
-    String? url,
+    int? id,
+    int? weight,
   }) {
     return PokemonSpeciesEvolutionChainModel(
-      url ?? this.url,
+      id ?? this.id,
+      weight ?? this.weight,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'url': url,
+      'id': id,
+      'weight': weight,
     };
   }
 
   factory PokemonSpeciesEvolutionChainModel.fromMap(Map<String, dynamic> map) {
     return PokemonSpeciesEvolutionChainModel(
-      map['url'] != null ? map['url'] as String : null,
+      map['id'] as int,
+      map['weight'] as int,
     );
   }
 
@@ -35,15 +41,16 @@ class PokemonSpeciesEvolutionChainModel {
           json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'PokemonSpeciesEvolutionChainModel(url: $url)';
+  String toString() =>
+      'PokemonSpeciesEvolutionChainModel(id: $id, weight: $weight)';
 
   @override
   bool operator ==(covariant PokemonSpeciesEvolutionChainModel other) {
     if (identical(this, other)) return true;
 
-    return other.url == url;
+    return other.id == id && other.weight == weight;
   }
 
   @override
-  int get hashCode => url.hashCode;
+  int get hashCode => id.hashCode ^ weight.hashCode;
 }

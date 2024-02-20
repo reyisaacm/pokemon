@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:pokemon_flutter/models/pokemon_species_evolution_chain_model.dart';
+
 class PokemonDetailModel {
   final int id;
   final String name;
@@ -11,6 +13,7 @@ class PokemonDetailModel {
   final int specialAttack;
   final int specialDefense;
   final int speed;
+  final PokemonSpeciesEvolutionChainModel? evolution;
   int weight;
   String previousBerryType = "";
 
@@ -25,7 +28,8 @@ class PokemonDetailModel {
       required this.specialAttack,
       required this.specialDefense,
       required this.speed,
-      required this.previousBerryType});
+      required this.previousBerryType,
+      required this.evolution});
 
   PokemonDetailModel copyWith({
     int? id,
@@ -51,7 +55,8 @@ class PokemonDetailModel {
         specialAttack: specialAttack ?? this.specialAttack,
         specialDefense: specialDefense ?? this.specialDefense,
         speed: speed ?? this.speed,
-        previousBerryType: previousBerryType ?? this.previousBerryType);
+        previousBerryType: previousBerryType ?? this.previousBerryType,
+        evolution: evolution);
   }
 
   Map<String, dynamic> toMap() {
@@ -84,23 +89,24 @@ class PokemonDetailModel {
       specialDefense: map['stats'][4]['base_stat'] as int,
       speed: map['stats'][5]['base_stat'] as int,
       previousBerryType: map['previousBerryType'] ?? "",
+      evolution: map['evolution'],
     );
   }
 
   factory PokemonDetailModel.fromStorage(Map<String, dynamic> map) {
     return PokemonDetailModel(
-      id: map['id'] as int,
-      name: map['name'] as String,
-      imageUrl: map['imageUrl'] as String,
-      weight: map['weight'] as int,
-      hp: map['hp'] as int,
-      attack: map['attack'] as int,
-      defense: map['defense'] as int,
-      specialAttack: map['specialAttack'] as int,
-      specialDefense: map['specialDefense'] as int,
-      speed: map['speed'] as int,
-      previousBerryType: map['previousBerryType'] ?? "",
-    );
+        id: map['id'] as int,
+        name: map['name'] as String,
+        imageUrl: map['imageUrl'] as String,
+        weight: map['weight'] as int,
+        hp: map['hp'] as int,
+        attack: map['attack'] as int,
+        defense: map['defense'] as int,
+        specialAttack: map['specialAttack'] as int,
+        specialDefense: map['specialDefense'] as int,
+        speed: map['speed'] as int,
+        previousBerryType: map['previousBerryType'] ?? "",
+        evolution: map['evolution']);
   }
 
   String toJson() => json.encode(toMap());
