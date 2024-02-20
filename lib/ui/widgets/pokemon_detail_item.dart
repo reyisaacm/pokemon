@@ -19,7 +19,6 @@ class _PokemonDetailItemState extends State<PokemonDetailItem> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _storageBloc = BlocProvider.of(context);
   }

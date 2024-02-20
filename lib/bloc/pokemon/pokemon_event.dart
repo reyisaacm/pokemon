@@ -6,8 +6,9 @@ sealed class PokemonEvent {}
 final class PokemonFetched extends PokemonEvent {
   final int limit;
   final int offset;
+  final String? search;
 
-  PokemonFetched(this.limit, this.offset);
+  PokemonFetched(this.limit, this.offset, this.search);
 }
 
 final class PokemonSelected extends PokemonEvent {

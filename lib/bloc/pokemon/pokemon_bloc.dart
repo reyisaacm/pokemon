@@ -17,9 +17,15 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   void _getPokemonList(PokemonFetched event, Emitter<PokemonState> emit) async {
     emit(PokemonLoading());
     try {
-      final List<PokemonListItemModel> data =
-          await pokemonRepository.getList(event.limit, event.offset);
-      emit(PokemonSuccess(data));
+      if (event.search == null || event.search!.trim() == "") {
+        final List<PokemonListItemModel> data =
+            await pokemonRepository.getList(event.limit, event.offset);
+        emit(PokemonSuccess(data));
+      } else {
+        final List<PokemonListItemModel> data = await pokemonRepository
+            .getListAll(event.limit, event.offset, event.search!);
+        emit(PokemonSuccess(data));
+      }
     } catch (e) {
       // print(s);
       emit(PokemonFailure(e.toString()));

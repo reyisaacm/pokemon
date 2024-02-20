@@ -1,3 +1,5 @@
+import "dart:async";
+
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart";
@@ -16,19 +18,21 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late PokemonBloc _pokemonBloc;
-  late StorageBloc _storageBloc;
   final int limit = 30;
   int offset = 0;
   bool isEnabled = false;
+  bool isTextFieldReadOnly = false;
   List<PokemonListItemModel> data = [];
   late PokemonListItemModel? selectedPokemon;
   final ScrollController _scrollController = ScrollController();
+  Timer? _timer;
+  String? search;
 
   @override
   void initState() {
     super.initState();
     _pokemonBloc = BlocProvider.of(context);
-    _pokemonBloc.add(PokemonFetched(limit, offset));
+    _pokemonBloc.add(PokemonFetched(limit, offset, search));
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -36,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           offset = offset + limit;
         });
-        _pokemonBloc.add(PokemonFetched(limit, offset));
+        _pokemonBloc.add(PokemonFetched(limit, offset, search));
       }
     });
   }
@@ -50,11 +54,28 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             TextField(
+              // readOnly: isTextFieldReadOnly,
+              onChanged: (String value) {
+                if (_timer?.isActive ?? false) _timer?.cancel();
+                _timer = Timer(const Duration(milliseconds: 500), () {
+                  setState(() {
+                    search = value;
+                    offset = 0;
+                    data = [];
+                    selectedPokemon = null;
+                    _pokemonBloc.add(PokemonFetched(limit, offset, search));
+                  });
+                });
+              },
               decoration: InputDecoration(
                 hintText: "Search Pokemon",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
+                // fillColor: isTextFieldReadOnly
+                //     ? Theme.of(context).colorScheme.inversePrimary
+                //     : Theme.of(context).colorScheme.background,
+                // filled: true,
               ),
             ),
             const SizedBox(

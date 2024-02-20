@@ -13,29 +13,72 @@ class PokemonRepository {
 
   PokemonRepository(this.listProvider, this.detailDataProvider);
 
+  Future<GetPokemonResourceListResponseModel> _getResourceList(
+      int limit, int offset, String? search) async {
+    final String pokemonListData = await listProvider.getResourceList(
+        limit, offset, ResourceTypeEnum.pokemon.name);
+    final jsonDecoded = jsonDecode(pokemonListData);
+    final GetPokemonResourceListResponseModel listData =
+        GetPokemonResourceListResponseModel.fromMap(jsonDecoded);
+
+    return listData;
+  }
+
+  Future<List<PokemonListItemModel>> _getResourceDetailList(
+      List<PokemonResourceListModel> listResource) async {
+    final List<PokemonListItemModel> listPokemonDetail = [];
+    final List<Future<String>> listDetailToFetch = [];
+    for (final PokemonResourceListModel a in listResource) {
+      listDetailToFetch.add(detailDataProvider.getResourceDetail(a.url));
+    }
+
+    final List<String> listDetail = await Future.wait(listDetailToFetch);
+    for (String a in listDetail) {
+      final PokemonListItemModel data =
+          PokemonListItemModel.fromMap(jsonDecode(a));
+      listPokemonDetail.add(data);
+    }
+
+    return listPokemonDetail;
+  }
+
   Future<List<PokemonListItemModel>> getList(int limit, int offset) async {
     try {
-      final String pokemonListData = await listProvider.getResourceList(
-          limit, offset, ResourceTypeEnum.pokemon.name);
-      final jsonDecoded = jsonDecode(pokemonListData);
       final GetPokemonResourceListResponseModel listData =
-          GetPokemonResourceListResponseModel.fromMap(jsonDecoded);
+          await _getResourceList(limit, offset, null);
       final List<PokemonResourceListModel> listPokemon = listData.results;
 
-      final List<PokemonListItemModel> listPokemonDetail = [];
-      final List<Future<String>> listDetailToFetch = [];
-      for (final PokemonResourceListModel a in listPokemon) {
-        listDetailToFetch.add(detailDataProvider.getResourceDetail(a.url));
-      }
+      final List<PokemonListItemModel> returnList =
+          await _getResourceDetailList(listPokemon);
+      return returnList;
+    } catch (e) {
+      // print(s);
+      throw e.toString();
+    }
+  }
 
-      final List<String> listDetail = await Future.wait(listDetailToFetch);
-      for (String a in listDetail) {
-        final PokemonListItemModel data =
-            PokemonListItemModel.fromMap(jsonDecode(a));
-        listPokemonDetail.add(data);
-      }
+  Future<List<PokemonListItemModel>> getListAll(
+      int limit, int offset, String search) async {
+    try {
+      //Get total count
+      final GetPokemonResourceListResponseModel listDataInitial =
+          await _getResourceList(limit, offset, null);
+      final int count = listDataInitial.count;
 
-      return listPokemonDetail;
+      final GetPokemonResourceListResponseModel listData =
+          await _getResourceList(count, offset, null);
+      List<PokemonResourceListModel> listPokemon = listData.results;
+
+      listPokemon = listData.results
+          .where((x) => x.name.toLowerCase().contains(search.toLowerCase()))
+          .skip(offset)
+          .take(limit)
+          .toList();
+
+      final List<PokemonListItemModel> returnList =
+          await _getResourceDetailList(listPokemon);
+
+      return returnList;
     } catch (e) {
       // print(s);
       throw e.toString();
