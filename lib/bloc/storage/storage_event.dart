@@ -21,4 +21,10 @@ final class StorageWeightUpdated extends StorageEvent {
   StorageWeightUpdated(this.weight, this.berryType);
 }
 
+final class StorageEvolutionUpdated extends StorageEvent {
+  final int weight;
+  final int evolutionId;
+  StorageEvolutionUpdated(this.weight, this.evolutionId);
+}
+
 final class StorageDeleted extends StorageEvent {}

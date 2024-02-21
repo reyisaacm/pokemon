@@ -15,6 +15,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
     on<StorageFailed>(_failedData);
     on<StorageWeightUpdated>(_updateWeightData);
     on<StorageDeleted>(_clearData);
+    on<StorageEvolutionUpdated>(_evolvePokemon);
   }
 
   void _readData(StorageLoaded event, Emitter<StorageState> emit) async {
@@ -74,6 +75,13 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
     try {
       await repo.clearData();
     } catch (e) {
+      emit(StorageFailure(e.toString()));
+    }
+  }
+
+  void _evolvePokemon(
+      StorageEvolutionUpdated event, Emitter<StorageState> emit) async {
+    try {} catch (e) {
       emit(StorageFailure(e.toString()));
     }
   }

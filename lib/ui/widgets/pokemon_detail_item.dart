@@ -1,11 +1,13 @@
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:pokemon_flutter/bloc/pokemon_detail/pokemon_detail_bloc.dart";
 import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
 import "package:pokemon_flutter/models/pokemon_detail_model.dart";
 import "package:pokemon_flutter/ui/screens/home_screen.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_berry_list.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_button.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_detail_item_attribute.dart";
+import "package:pokemon_flutter/ui/widgets/pokemon_dialog.dart";
 
 class PokemonDetailItem extends StatefulWidget {
   final PokemonDetailModel data;
@@ -17,11 +19,13 @@ class PokemonDetailItem extends StatefulWidget {
 
 class _PokemonDetailItemState extends State<PokemonDetailItem> {
   late StorageBloc _storageBloc;
+  late PokemonDetailBloc _pokemonDetailBloc;
 
   @override
   void initState() {
     super.initState();
     _storageBloc = BlocProvider.of(context);
+    _pokemonDetailBloc = context.read<PokemonDetailBloc>();
   }
 
   @override
@@ -50,10 +54,28 @@ class _PokemonDetailItemState extends State<PokemonDetailItem> {
             Positioned(
                 right: 0,
                 child: GestureDetector(
-                  onTap: () => _dialogBuilder(context),
+                  onTap: () => showDialog<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return PokemonDialog(
+                          onConfirm: () {
+                            _storageBloc.add(StorageDeleted());
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (context) {
+                              return const HomeScreen();
+                            }));
+                          },
+                          onCancel: () {
+                            Navigator.of(context).pop();
+                          },
+                          title: "Delete pokemon",
+                          content: "Are you sure to delete this pokemon?");
+                    },
+                  ),
                   child: const Icon(
                     Icons.highlight_remove_sharp,
                     color: Colors.red,
+                    size: 30,
                   ),
                 ))
           ]),
@@ -72,14 +94,31 @@ class _PokemonDetailItemState extends State<PokemonDetailItem> {
 
               return isEligibleForEvolution
                   ? SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.75,
+                      width: MediaQuery.of(context).size.width * 0.5,
                       child: PokemonButton(
                           isEnabled: true,
-                          onTap: () {},
+                          onTap: () => showDialog<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return PokemonDialog(
+                                      onConfirm: () {
+                                        _pokemonDetailBloc.add(
+                                            PokemonDetailFetched(
+                                                widget.data.evolution!.id));
+                                        Navigator.of(context).pop();
+                                      },
+                                      onCancel: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      title: "Evolve pokemon",
+                                      content:
+                                          "Are you sure to evolve this pokemon?");
+                                },
+                              ),
                           buttonText: "Evolution",
                           color: const Color.fromRGBO(255, 192, 0, 1)),
                     )
-                  : Text("$weightForEvolution");
+                  : Container();
             },
           ),
           const SizedBox(
@@ -111,42 +150,6 @@ class _PokemonDetailItemState extends State<PokemonDetailItem> {
           const PokemonBerryList()
         ],
       ),
-    );
-  }
-
-  Future<void> _dialogBuilder(BuildContext context) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Delete pokemon'),
-          content: const Text('Are you sure to delete this pokemon?'),
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Yes'),
-              onPressed: () {
-                _storageBloc.add(StorageDeleted());
-                Navigator.of(context)
-                    .pushReplacement(MaterialPageRoute(builder: (context) {
-                  return const HomeScreen();
-                }));
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

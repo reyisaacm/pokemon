@@ -20,7 +20,8 @@ class StorageRepository {
       }
     } catch (e) {
       // print(s);
-      throw e.toString();
+      // throw e.toString();
+      return null;
     }
   }
 
