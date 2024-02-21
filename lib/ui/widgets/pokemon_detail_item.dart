@@ -4,6 +4,7 @@ import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
 import "package:pokemon_flutter/models/pokemon_detail_model.dart";
 import "package:pokemon_flutter/ui/screens/home_screen.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_berry_list.dart";
+import "package:pokemon_flutter/ui/widgets/pokemon_button.dart";
 import "package:pokemon_flutter/ui/widgets/pokemon_detail_item_attribute.dart";
 
 class PokemonDetailItem extends StatefulWidget {
@@ -56,6 +57,31 @@ class _PokemonDetailItemState extends State<PokemonDetailItem> {
                   ),
                 ))
           ]),
+          const SizedBox(
+            height: 15,
+          ),
+          BlocBuilder<StorageBloc, StorageState>(
+            builder: (context, state) {
+              final int? weightForEvolution = widget.data.evolution?.weight;
+              bool isEligibleForEvolution = false;
+
+              if (weightForEvolution != null &&
+                  widget.data.weight >= weightForEvolution) {
+                isEligibleForEvolution = true;
+              }
+
+              return isEligibleForEvolution
+                  ? SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      child: PokemonButton(
+                          isEnabled: true,
+                          onTap: () {},
+                          buttonText: "Evolution",
+                          color: const Color.fromRGBO(255, 192, 0, 1)),
+                    )
+                  : Text("$weightForEvolution");
+            },
+          ),
           const SizedBox(
             height: 15,
           ),

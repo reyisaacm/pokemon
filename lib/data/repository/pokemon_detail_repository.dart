@@ -12,10 +12,12 @@ List<int> _getEvolutionSpeciesList(
 
     final Uri uri = Uri.parse(speciesData!['url']);
     final int speciesId =
-        int.parse(uri.pathSegments[uri.pathSegments.length - 1]);
+        int.parse(uri.pathSegments[uri.pathSegments.length - 2]);
     list.add(speciesId);
-    chainObj = chainObj['evolves_to'];
-    return _getEvolutionSpeciesList(list, chainObj);
+    List<dynamic> nextEvolutionList = chainObj['evolves_to'];
+    Map<String, dynamic>? nextData =
+        (nextEvolutionList.isEmpty) ? null : nextEvolutionList[0];
+    return _getEvolutionSpeciesList(list, nextData);
   } else {
     return list;
   }
@@ -29,7 +31,6 @@ class PokemonDetailRepository {
   Future<PokemonDetailModel> getData(int id) async {
     try {
       PokemonDetailModel data;
-      PokemonSpeciesEvolutionChainModel? evolution;
 
       final String fetchDetailData =
           await detailsDataProvider.getResourceDetail(
@@ -54,6 +55,28 @@ class PokemonDetailRepository {
         List<int> evolutionData =
             _getEvolutionSpeciesList([], jsonFetchEvolutionObj);
         int evolutionDataLength = evolutionData.length;
+        int? nextEvolutionId;
+        if (evolutionDataLength > 0) {
+          //pokemon has evolution
+          int initialIndex = evolutionData.indexWhere((x) => x == id);
+          if (initialIndex < evolutionData.length - 1) {
+            //get the next evolution
+            nextEvolutionId = evolutionData[initialIndex + 1];
+          }
+        }
+
+        if (nextEvolutionId != null) {
+          final String fetchEvolutionDetailData =
+              await detailsDataProvider.getResourceDetail(
+                  "https://pokeapi.co/api/v2/${ResourceTypeEnum.pokemon.name}/$nextEvolutionId");
+          final jsonFetchEvolutionDetail = jsonDecode(fetchEvolutionDetailData);
+          final PokemonDetailModel evolutionPokemonData =
+              PokemonDetailModel.fromMap(jsonFetchEvolutionDetail);
+          PokemonSpeciesEvolutionChainModel pokemonNextEvolution =
+              PokemonSpeciesEvolutionChainModel(
+                  evolutionPokemonData.id, evolutionPokemonData.weight);
+          data.evolution = pokemonNextEvolution;
+        }
       }
 
       return data;

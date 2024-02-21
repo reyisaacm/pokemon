@@ -4,7 +4,7 @@ import "package:pokemon_flutter/bloc/pokemon_berry/pokemon_berry_bloc.dart";
 import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
 import "package:pokemon_flutter/models/pokemon_berry_model.dart";
 import "package:pokemon_flutter/models/pokemon_detail_model.dart";
-import "package:pokemon_flutter/ui/widgets/pokemon_button_primary.dart";
+import 'package:pokemon_flutter/ui/widgets/pokemon_button.dart';
 
 class PokemonBerryList extends StatefulWidget {
   const PokemonBerryList({
@@ -87,8 +87,9 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
             height: 10,
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.75,
-            child: PokemonButtonPrimary(
+            width: MediaQuery.of(context).size.width * 0.90,
+            child: PokemonButton(
+                color: Theme.of(context).colorScheme.primary,
                 isEnabled: selectedData != null ? true : false,
                 onTap: () {
                   _storageBloc.add(StorageWeightUpdated(

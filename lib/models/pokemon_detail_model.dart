@@ -13,7 +13,7 @@ class PokemonDetailModel {
   final int specialAttack;
   final int specialDefense;
   final int speed;
-  final PokemonSpeciesEvolutionChainModel? evolution;
+  PokemonSpeciesEvolutionChainModel? evolution;
   int weight;
   String previousBerryType = "";
 
@@ -71,7 +71,8 @@ class PokemonDetailModel {
       'specialAttack': specialAttack,
       'specialDefense': specialDefense,
       'speed': speed,
-      'previousBerryType': previousBerryType
+      'previousBerryType': previousBerryType,
+      'evolution': evolution?.toMap()
     };
   }
 
@@ -89,24 +90,31 @@ class PokemonDetailModel {
       specialDefense: map['stats'][4]['base_stat'] as int,
       speed: map['stats'][5]['base_stat'] as int,
       previousBerryType: map['previousBerryType'] ?? "",
-      evolution: map['evolution'],
+      evolution: map['evolution'] != null
+          ? PokemonSpeciesEvolutionChainModel.fromMap(
+              map['evolution'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   factory PokemonDetailModel.fromStorage(Map<String, dynamic> map) {
     return PokemonDetailModel(
-        id: map['id'] as int,
-        name: map['name'] as String,
-        imageUrl: map['imageUrl'] as String,
-        weight: map['weight'] as int,
-        hp: map['hp'] as int,
-        attack: map['attack'] as int,
-        defense: map['defense'] as int,
-        specialAttack: map['specialAttack'] as int,
-        specialDefense: map['specialDefense'] as int,
-        speed: map['speed'] as int,
-        previousBerryType: map['previousBerryType'] ?? "",
-        evolution: map['evolution']);
+      id: map['id'] as int,
+      name: map['name'] as String,
+      imageUrl: map['imageUrl'] as String,
+      weight: map['weight'] as int,
+      hp: map['hp'] as int,
+      attack: map['attack'] as int,
+      defense: map['defense'] as int,
+      specialAttack: map['specialAttack'] as int,
+      specialDefense: map['specialDefense'] as int,
+      speed: map['speed'] as int,
+      previousBerryType: map['previousBerryType'] ?? "",
+      evolution: map['evolution'] != null
+          ? PokemonSpeciesEvolutionChainModel.fromMap(
+              map['evolution'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
   String toJson() => json.encode(toMap());

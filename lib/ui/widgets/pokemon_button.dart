@@ -1,15 +1,17 @@
 import "package:flutter/material.dart";
 
-class PokemonButtonPrimary extends StatelessWidget {
+class PokemonButton extends StatelessWidget {
   final bool isEnabled;
   final VoidCallback onTap;
   final String buttonText;
+  final Color color;
 
-  const PokemonButtonPrimary({
+  const PokemonButton({
     super.key,
     required this.isEnabled,
     required this.onTap,
     required this.buttonText,
+    required this.color,
   });
 
   @override
@@ -25,10 +27,11 @@ class PokemonButtonPrimary extends StatelessWidget {
         //   ),
         // ),
         style: ElevatedButton.styleFrom(
-            disabledForegroundColor: Colors.grey[700],
-            disabledBackgroundColor: Colors.grey[300],
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            backgroundColor: Theme.of(context).colorScheme.primary),
+          disabledForegroundColor: Colors.grey[700],
+          disabledBackgroundColor: Colors.grey[300],
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          backgroundColor: color,
+        ),
         onPressed: isEnabled ? onTap : null,
         child: Text(
           buttonText,

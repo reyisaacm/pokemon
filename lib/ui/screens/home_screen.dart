@@ -6,7 +6,7 @@ import "package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart";
 import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
 import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
 import "package:pokemon_flutter/ui/screens/detail_screen.dart";
-import "package:pokemon_flutter/ui/widgets/pokemon_button_primary.dart";
+import 'package:pokemon_flutter/ui/widgets/pokemon_button.dart';
 import "package:pokemon_flutter/ui/widgets/pokemon_item.dart";
 
 class HomeScreen extends StatefulWidget {
@@ -136,7 +136,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: PokemonButtonPrimary(
+                      child: PokemonButton(
+                        color: Theme.of(context).colorScheme.primary,
                         isEnabled: isEnabled,
                         onTap: () {
                           // _storageBloc.add(StorageWritten(selectedPokemon!));
