@@ -35,23 +35,30 @@ class _DetailScreenState extends State<DetailScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            BlocListener(
-              bloc: _pokemonDetailBloc,
-              listener: (context, state) {
-                if (state is PokemonDetailSuccess) {
-                  _storageBloc.add(StorageWritten(state.data));
-                }
-                if (state is PokemonDetailFailure) {
-                  _storageBloc.add(StorageFailed(state.error));
-                }
-              },
-              child: BlocBuilder<StorageBloc, StorageState>(
-                  bloc: _storageBloc,
-                  builder: (context, state) {
+            MultiBlocListener(
+              listeners: [
+                BlocListener(
+                  bloc: _pokemonDetailBloc,
+                  listener: (context, state) {
+                    if (state is PokemonDetailSuccess) {
+                      _storageBloc.add(StorageWritten(state.data));
+                    }
+                    if (state is PokemonDetailFailure) {
+                      _storageBloc.add(StorageFailed(state.error));
+                    }
+                  },
+                ),
+                BlocListener<StorageBloc, StorageState>(
+                  listener: (context, state) {
                     if (state is StorageEmpty) {
                       _pokemonDetailBloc.add(PokemonDetailFetched(widget.id));
                     }
-
+                  },
+                ),
+              ],
+              child: BlocBuilder<StorageBloc, StorageState>(
+                  bloc: _storageBloc,
+                  builder: (context, state) {
                     if (state is StorageFailure) {
                       return Center(
                         child: Text(state.error),
