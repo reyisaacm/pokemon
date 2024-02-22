@@ -25,3 +25,5 @@ final class PokemonSelect extends PokemonState {
 
   PokemonSelect(this.listPokemonListItemModel, this.selectedPokemon);
 }
+
+final class PokemonClear extends PokemonState {}

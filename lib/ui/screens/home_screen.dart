@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _pokemonBloc = BlocProvider.of(context);
     _pokemonBloc.add(PokemonFetched(limit, offset, search));
-
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -99,6 +98,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   selectedPokemon = state.selectedPokemon;
                 }
 
+                if (state is PokemonClear) {
+                  data = [];
+                }
+
                 return Flexible(
                   child: GridView.builder(
                       controller: _scrollController,
@@ -142,12 +145,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           // _storageBloc.add(StorageWritten(selectedPokemon!));
                           // print("tapped");
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context) {
-                            return DetailScreen(
-                              id: selectedPokemon!.id,
-                            );
-                          }));
+                          int idSelected = selectedPokemon!.id;
+                          _pokemonBloc.add(PokemonCleared());
+
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                                  maintainState: false,
+                                  builder: (context) {
+                                    return DetailScreen(
+                                      id: idSelected,
+                                    );
+                                  }));
                         },
                         buttonText: "I Choose You",
                       ),

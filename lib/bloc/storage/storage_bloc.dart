@@ -74,6 +74,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
   void _clearData(StorageDeleted event, Emitter<StorageState> emit) async {
     try {
       await repo.clearData();
+      // emit(StorageEmpty());
     } catch (e) {
       emit(StorageFailure(e.toString()));
     }

@@ -12,6 +12,7 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   PokemonBloc(this.pokemonRepository) : super(PokemonInitial()) {
     on<PokemonFetched>(_getPokemonList);
     on<PokemonSelected>(_selectPokemonList);
+    on<PokemonCleared>(_clearPokemonList);
   }
 
   void _getPokemonList(PokemonFetched event, Emitter<PokemonState> emit) async {
@@ -45,5 +46,9 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
     }
 
     emit(PokemonSelect(currentList, selectedPokemon));
+  }
+
+  void _clearPokemonList(PokemonCleared event, Emitter<PokemonState> emit) {
+    emit(PokemonClear());
   }
 }

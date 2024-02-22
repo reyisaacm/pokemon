@@ -28,43 +28,48 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Pokemon Detail")),
-      body: Column(
-        children: [
-          BlocListener(
-            bloc: _pokemonDetailBloc,
-            listener: (context, state) {
-              if (state is PokemonDetailSuccess) {
-                _storageBloc.add(StorageWritten(state.data));
-              }
-              if (state is PokemonDetailFailure) {
-                _storageBloc.add(StorageFailed(state.error));
-              }
-            },
-            child: BlocBuilder<StorageBloc, StorageState>(
-                bloc: _storageBloc,
-                builder: (context, state) {
-                  if (state is StorageEmpty) {
-                    _pokemonDetailBloc.add(PokemonDetailFetched(widget.id));
-                  }
+      appBar: AppBar(
+        title: const Text("Pokemon Detail"),
+        centerTitle: true,
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            BlocListener(
+              bloc: _pokemonDetailBloc,
+              listener: (context, state) {
+                if (state is PokemonDetailSuccess) {
+                  _storageBloc.add(StorageWritten(state.data));
+                }
+                if (state is PokemonDetailFailure) {
+                  _storageBloc.add(StorageFailed(state.error));
+                }
+              },
+              child: BlocBuilder<StorageBloc, StorageState>(
+                  bloc: _storageBloc,
+                  builder: (context, state) {
+                    if (state is StorageEmpty) {
+                      _pokemonDetailBloc.add(PokemonDetailFetched(widget.id));
+                    }
 
-                  if (state is StorageFailure) {
-                    return Center(
-                      child: Text(state.error),
-                    );
-                  }
+                    if (state is StorageFailure) {
+                      return Center(
+                        child: Text(state.error),
+                      );
+                    }
 
-                  if (state is! StorageSuccess) {
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    );
-                  }
+                    if (state is! StorageSuccess) {
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    }
 
-                  PokemonDetailModel data = state.data;
-                  return PokemonDetailItem(data: data);
-                }),
-          )
-        ],
+                    PokemonDetailModel data = state.data;
+                    return PokemonDetailItem(data: data);
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }

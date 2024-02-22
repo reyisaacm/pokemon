@@ -17,3 +17,5 @@ final class PokemonSelected extends PokemonEvent {
 
   PokemonSelected(this.data, this.index);
 }
+
+final class PokemonCleared extends PokemonEvent {}
