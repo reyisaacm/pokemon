@@ -60,12 +60,13 @@ class _PokemonDetailItemState extends State<PokemonDetailItem> {
                       return PokemonDialog(
                           onConfirm: () {
                             _storageBloc.add(StorageDeleted());
+                            Navigator.of(context).pop();
                             Navigator.of(context)
                                 .pushReplacement(MaterialPageRoute(
-                                    maintainState: false,
+                                    // maintainState: false,
                                     builder: (context) {
-                                      return const HomeScreen();
-                                    }));
+                              return const HomeScreen();
+                            }));
                           },
                           onCancel: () {
                             Navigator.of(context).pop();
