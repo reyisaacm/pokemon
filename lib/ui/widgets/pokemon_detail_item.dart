@@ -104,9 +104,11 @@ class _PokemonDetailItemState extends State<PokemonDetailItem> {
                                 builder: (BuildContext context) {
                                   return PokemonDialog(
                                       onConfirm: () {
+                                        _storageBloc.add(StorageDeleted());
                                         _pokemonDetailBloc.add(
-                                            PokemonDetailFetched(
-                                                widget.data.evolution!.id));
+                                            PokemonDetailEvolved(
+                                                widget.data.evolution!.id,
+                                                widget.data.weight));
                                         Navigator.of(context).pop();
                                       },
                                       onCancel: () {

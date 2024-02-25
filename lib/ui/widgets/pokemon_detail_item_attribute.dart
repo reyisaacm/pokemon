@@ -22,7 +22,7 @@ class PokemonDetailItemAttribute extends StatelessWidget {
             style: TextStyle(fontSize: fontSize),
           ),
           SizedBox(
-            width: 45,
+            width: 50,
             child: Row(
               children: [
                 const Text(": "),

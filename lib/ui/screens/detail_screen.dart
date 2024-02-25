@@ -66,8 +66,11 @@ class _DetailScreenState extends State<DetailScreen> {
                     }
 
                     if (state is! StorageSuccess) {
-                      return const Center(
-                        child: CircularProgressIndicator.adaptive(),
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 20),
+                        child: const Center(
+                          child: CircularProgressIndicator.adaptive(),
+                        ),
                       );
                     }
 

@@ -11,6 +11,7 @@ class PokemonDetailBloc extends Bloc<PokemonDetailEvent, PokemonDetailState> {
 
   PokemonDetailBloc(this.repo) : super(PokemonDetailInitial()) {
     on<PokemonDetailFetched>(_getDetail);
+    on<PokemonDetailEvolved>(_getEvolvedDetail);
   }
 
   void _getDetail(
@@ -18,6 +19,19 @@ class PokemonDetailBloc extends Bloc<PokemonDetailEvent, PokemonDetailState> {
     // emit(PokemonLoading());
     try {
       final PokemonDetailModel data = await repo.getData(event.id);
+      emit(PokemonDetailSuccess(data));
+    } catch (e) {
+      // print(s);
+      emit(PokemonDetailFailure(e.toString()));
+    }
+  }
+
+  void _getEvolvedDetail(
+      PokemonDetailEvolved event, Emitter<PokemonDetailState> emit) async {
+    // emit(PokemonLoading());
+    try {
+      final PokemonDetailModel data = await repo.getData(event.id);
+      data.weight = event.weight;
       emit(PokemonDetailSuccess(data));
     } catch (e) {
       // print(s);
