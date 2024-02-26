@@ -13,11 +13,12 @@ import 'fixtures.dart';
 class MockPokemonResourceListDataProvider
     extends PokemonResourceListDataProvider {
   @override
-  Future<String> getResourceList(int limit, int offset, String resourceName) {
+  Future<String> getResourceList(
+      int limit, int offset, String resourceName) async {
     if (limit == 1) {
-      return Future.value(resourceListBerrySingle);
+      return resourceListBerrySingle;
     } else {
-      return Future.value(resourceListBerryAll);
+      return resourceListBerryAll;
     }
   }
 }
@@ -25,11 +26,11 @@ class MockPokemonResourceListDataProvider
 class MockPokemonResourceDetailDataProvider
     extends PokemonResourceDetailDataProvider {
   @override
-  Future<String> getResourceDetail(String url) {
+  Future<String> getResourceDetail(String url) async {
     if (url == "http://berry.url") {
-      return Future.value(resourceDetailBerry);
+      return resourceDetailBerry;
     } else {
-      return Future.value(resourceDetailBerryItem);
+      return resourceDetailBerryItem;
     }
   }
 }
