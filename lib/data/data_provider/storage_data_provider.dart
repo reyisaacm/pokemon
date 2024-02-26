@@ -36,10 +36,10 @@ class StorageDataProvider {
     }
   }
 
-  Future<File> write(String data) async {
+  Future<void> write(String data) async {
     final file = await _localFile;
 
     // Write the file
-    return await file.writeAsString(data);
+    await file.writeAsString(data);
   }
 }
