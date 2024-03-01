@@ -50,6 +50,7 @@ class PokemonDetailRepository {
       if (evolutionChainUrl != null) {
         final String fetchEvolution =
             await detailsDataProvider.getResourceDetail(evolutionChainUrl);
+
         final jsonFetchEvolutionData = jsonDecode(fetchEvolution);
         final jsonFetchEvolutionObj = jsonFetchEvolutionData['chain'];
         List<int> evolutionData =
@@ -64,7 +65,6 @@ class PokemonDetailRepository {
             nextEvolutionId = evolutionData[initialIndex + 1];
           }
         }
-
         if (nextEvolutionId != null) {
           final String fetchEvolutionDetailData =
               await detailsDataProvider.getResourceDetail(

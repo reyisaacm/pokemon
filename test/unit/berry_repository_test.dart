@@ -8,9 +8,9 @@ import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_pr
 import 'package:pokemon_flutter/data/repository/pokemon_berry_repository.dart';
 import 'package:pokemon_flutter/models/enum/resource_type_enum.dart';
 
-import 'fixtures.dart';
+import '../fixtures.dart';
 
-class MockPokemonResourceListDataProvider
+class MockPokemonBerryResourceListDataProvider
     extends PokemonResourceListDataProvider {
   @override
   Future<String> getResourceList(
@@ -23,7 +23,7 @@ class MockPokemonResourceListDataProvider
   }
 }
 
-class MockPokemonResourceDetailDataProvider
+class MockPokemonBerryResourceDetailDataProvider
     extends PokemonResourceDetailDataProvider {
   @override
   Future<String> getResourceDetail(String url) async {
@@ -36,11 +36,11 @@ class MockPokemonResourceDetailDataProvider
 }
 
 void main() {
-  final MockPokemonResourceListDataProvider repoList =
-      MockPokemonResourceListDataProvider();
+  final MockPokemonBerryResourceListDataProvider repoList =
+      MockPokemonBerryResourceListDataProvider();
 
-  final MockPokemonResourceDetailDataProvider repoDetail =
-      MockPokemonResourceDetailDataProvider();
+  final MockPokemonBerryResourceDetailDataProvider repoDetail =
+      MockPokemonBerryResourceDetailDataProvider();
 
   test(
     "should return all berry",
