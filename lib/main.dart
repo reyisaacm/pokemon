@@ -81,8 +81,8 @@ class _MyAppState extends State<MyApp> {
           // home: const DetailScreen(id: 1),
           home: BlocBuilder<StartupBloc, StartupState>(
             builder: (context, state) {
-              StartupBloc _startupBloc = context.read<StartupBloc>();
-              _startupBloc.add(StartupLoaded());
+              StartupBloc startupBloc = context.read<StartupBloc>();
+              startupBloc.add(StartupLoaded());
               if (state is! StartupSuccess) {
                 return const Center(
                   child: CircularProgressIndicator.adaptive(),

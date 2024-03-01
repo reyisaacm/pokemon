@@ -3,7 +3,6 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon_berry/pokemon_berry_bloc.dart";
 import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
 import "package:pokemon_flutter/models/pokemon_berry_model.dart";
-import "package:pokemon_flutter/models/pokemon_detail_model.dart";
 import 'package:pokemon_flutter/ui/widgets/pokemon_button.dart';
 
 class PokemonBerryList extends StatefulWidget {

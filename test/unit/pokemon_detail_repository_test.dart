@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
-import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
 import 'package:pokemon_flutter/data/repository/pokemon_detail_repository.dart';
 import 'package:pokemon_flutter/models/pokemon_detail_model.dart';
 import 'package:pokemon_flutter/models/pokemon_species_evolution_chain_model.dart';

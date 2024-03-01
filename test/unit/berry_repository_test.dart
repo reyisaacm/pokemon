@@ -1,12 +1,7 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
-import 'package:mocktail/mocktail.dart';
-import 'package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
 import 'package:pokemon_flutter/data/repository/pokemon_berry_repository.dart';
-import 'package:pokemon_flutter/models/enum/resource_type_enum.dart';
 
 import '../fixtures.dart';
 

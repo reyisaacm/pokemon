@@ -16,7 +16,7 @@ class PokemonButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       // padding: const EdgeInsets.symmetric(vertical: 12),
       width: double.infinity,
       child: ElevatedButton(

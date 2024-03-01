@@ -3,7 +3,6 @@ import "dart:async";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon/pokemon_bloc.dart";
-import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
 import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
 import "package:pokemon_flutter/ui/screens/detail_screen.dart";
 import 'package:pokemon_flutter/ui/widgets/pokemon_button.dart';
