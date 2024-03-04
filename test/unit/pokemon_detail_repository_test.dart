@@ -4,7 +4,7 @@ import 'package:pokemon_flutter/data/repository/pokemon_detail_repository.dart';
 import 'package:pokemon_flutter/models/pokemon_detail_model.dart';
 import 'package:pokemon_flutter/models/pokemon_species_evolution_chain_model.dart';
 
-import '../fixtures.dart';
+import '../fixtures/pokemon_detail_fixtures.dart';
 
 class MockPokemonDetailResourceDetailDataProvider
     extends PokemonResourceDetailDataProvider {

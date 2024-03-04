@@ -3,7 +3,7 @@ import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
 import 'package:pokemon_flutter/data/repository/pokemon_berry_repository.dart';
 
-import '../fixtures.dart';
+import '../fixtures/berry_fixtures.dart';
 
 class MockPokemonBerryResourceListDataProvider
     extends PokemonResourceListDataProvider {
