@@ -31,16 +31,16 @@ class MockPokemonBerryResourceDetailDataProvider
 }
 
 void main() {
-  final MockPokemonBerryResourceListDataProvider repoList =
+  final MockPokemonBerryResourceListDataProvider providerList =
       MockPokemonBerryResourceListDataProvider();
 
-  final MockPokemonBerryResourceDetailDataProvider repoDetail =
+  final MockPokemonBerryResourceDetailDataProvider providerDetail =
       MockPokemonBerryResourceDetailDataProvider();
 
   test(
     "should return all berry",
     () async {
-      final repo = PokemonBerryRepository(repoList, repoDetail);
+      final repo = PokemonBerryRepository(providerList, providerDetail);
       final data = await repo.getList();
       expect(data.length, 64);
     },

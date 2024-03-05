@@ -25,12 +25,12 @@ class MockPokemonDetailResourceDetailDataProvider
 }
 
 void main() {
-  final MockPokemonDetailResourceDetailDataProvider repoDetail =
+  final MockPokemonDetailResourceDetailDataProvider providerDetail =
       MockPokemonDetailResourceDetailDataProvider();
   test(
     "should return correct details",
     () async {
-      final repo = PokemonDetailRepository(repoDetail);
+      final repo = PokemonDetailRepository(providerDetail);
       final data = await repo.getData(1);
       final expectedResult = PokemonDetailModel(
           id: 1,
@@ -46,6 +46,7 @@ void main() {
           speed: 45,
           previousBerryType: "",
           evolution: PokemonSpeciesEvolutionChainModel(2, 3010));
+
       final expectedResultEvolution = PokemonSpeciesEvolutionChainModel(2, 130);
       expect(data, expectedResult);
       expect(data.evolution, expectedResultEvolution);

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
@@ -31,18 +33,24 @@ class MockPokemonDetailResourceDetailDataProvider
 }
 
 void main() {
-  final MockPokemonResourceListDataProvider repoList =
+  final MockPokemonResourceListDataProvider providerList =
       MockPokemonResourceListDataProvider();
 
-  final MockPokemonDetailResourceDetailDataProvider repoDetail =
+  final MockPokemonDetailResourceDetailDataProvider providerDetail =
       MockPokemonDetailResourceDetailDataProvider();
+  final repo = PokemonRepository(providerList, providerDetail);
 
   test(
     "should return list",
     () async {
-      final repo = PokemonRepository(repoList, repoDetail);
       final data = await repo.getList(10, 0);
       expect(data.length, 10);
     },
   );
+  test("should return correct search", () async {
+    final data = await repo.getListAll(10, 0, "bulbasaur");
+    expect(data.length, 1);
+    PokemonListItemModel item = data.first;
+    expect(item.name, "bulbasaur");
+  });
 }
