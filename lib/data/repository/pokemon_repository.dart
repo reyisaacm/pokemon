@@ -5,7 +5,7 @@ import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_pr
 import 'package:pokemon_flutter/models/enum/resource_type_enum.dart';
 import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
 import 'package:pokemon_flutter/models/pokemon_resource_list_model.dart';
-import 'package:pokemon_flutter/models/remote/get_pokemon_resource_list_response_model.dart';
+import 'package:pokemon_flutter/models/remote/resource_list_response_model.dart';
 
 class PokemonRepository {
   final PokemonResourceListDataProvider listProvider;
@@ -13,13 +13,13 @@ class PokemonRepository {
 
   PokemonRepository(this.listProvider, this.detailDataProvider);
 
-  Future<GetPokemonResourceListResponseModel> _getResourceList(
+  Future<ResourceListResponseModel> _getResourceList(
       int limit, int offset, String? search) async {
     final String pokemonListData = await listProvider.getResourceList(
         limit, offset, ResourceTypeEnum.pokemon.name);
     final jsonDecoded = jsonDecode(pokemonListData);
-    final GetPokemonResourceListResponseModel listData =
-        GetPokemonResourceListResponseModel.fromMap(jsonDecoded);
+    final ResourceListResponseModel listData =
+        ResourceListResponseModel.fromMap(jsonDecoded);
 
     return listData;
   }
@@ -44,7 +44,7 @@ class PokemonRepository {
 
   Future<List<PokemonListItemModel>> getList(int limit, int offset) async {
     try {
-      final GetPokemonResourceListResponseModel listData =
+      final ResourceListResponseModel listData =
           await _getResourceList(limit, offset, null);
       final List<PokemonResourceListModel> listPokemon = listData.results;
 
@@ -61,11 +61,11 @@ class PokemonRepository {
       int limit, int offset, String search) async {
     try {
       //Get total count
-      final GetPokemonResourceListResponseModel listDataInitial =
+      final ResourceListResponseModel listDataInitial =
           await _getResourceList(limit, offset, null);
       final int count = listDataInitial.count;
 
-      final GetPokemonResourceListResponseModel listData =
+      final ResourceListResponseModel listData =
           await _getResourceList(count, offset, null);
       List<PokemonResourceListModel> listPokemon = listData.results;
 
