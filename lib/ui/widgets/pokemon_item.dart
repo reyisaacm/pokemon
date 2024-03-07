@@ -1,3 +1,4 @@
+
 import "package:flutter/material.dart";
 
 class PokememonItem extends StatelessWidget {
@@ -17,7 +18,9 @@ class PokememonItem extends StatelessWidget {
       children: [
         Container(
           color: isSelected ? Theme.of(context).colorScheme.tertiary : null,
-          child: Image.network(imageUrl),
+          child: imageUrl == ""
+              ? Image.asset("assets/images/pokemon-icon.png")
+              : Image.network(imageUrl),
         )
       ],
     );
