@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
 import 'package:pokemon_flutter/models/enum/resource_type_enum.dart';
@@ -97,8 +96,7 @@ class PokemonDetailRepository {
           ResourceDetailPokemonResponseModel jsonFetchEvolutionDetail =
               ResourceDetailPokemonResponseModel.fromJson(
                   fetchEvolutionDetailData);
-          // final PokemonDetailModel evolutionPokemonData =
-          //     PokemonDetailModel.fromMap(jsonFetchEvolutionDetail);
+
           PokemonSpeciesEvolutionChainModel pokemonNextEvolution =
               PokemonSpeciesEvolutionChainModel(
                   jsonFetchEvolutionDetail.id, jsonFetchEvolutionDetail.weight);

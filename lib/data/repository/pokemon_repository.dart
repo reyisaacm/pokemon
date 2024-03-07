@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
 import 'package:pokemon_flutter/models/enum/resource_type_enum.dart';
 import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
-import 'package:pokemon_flutter/models/pokemon_resource_list_model.dart';
 import 'package:pokemon_flutter/models/remote/pokemon/resource_detail_pokemon_response_model.dart';
 import 'package:pokemon_flutter/models/remote/resource_list_response_model.dart';
 import 'package:pokemon_flutter/models/remote/resource_list_result_response_model.dart';

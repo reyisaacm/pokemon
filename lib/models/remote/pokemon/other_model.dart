@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:pokemon_flutter/models/remote/pokemon/official_artwork_model.dart';
-import 'package:pokemon_flutter/models/remote/pokemon/sprites_model.dart';
 
 class OtherResponseModel {
   final OfficialArtworkResponseModel officialArtwork;

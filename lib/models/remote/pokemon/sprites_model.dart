@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:pokemon_flutter/models/remote/pokemon/other_model.dart';
-import 'package:pokemon_flutter/models/remote/pokemon/resource_detail_pokemon_response_model.dart';
 
 class SpritesResponseModel {
   final String? backDefault;

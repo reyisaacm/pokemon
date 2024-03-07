@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:pokemon_flutter/models/remote/pokemon/resource_detail_pokemon_response_model.dart';
-import 'package:pokemon_flutter/models/remote/pokemon/species_model.dart';
 
 class StatResponseModel {
   final int baseStat;
