@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pokemon_flutter/data/data_provider/storage_data_provider.dart';
+import 'package:pokemon_flutter/data/data_provider/json_storage_data_provider.dart';
 import 'package:pokemon_flutter/data/repository/storage_repository.dart';
 import 'package:pokemon_flutter/models/pokemon_detail_model.dart';
 
 import '../fixtures/pokemon_detail_fixtures.dart';
 
-class MockStorageDataProvider extends StorageDataProvider {
+class MockStorageDataProvider extends JsonStorageDataProvider {
   @override
   Future<String> read() async {
     return detailPokemonModelDataJson;

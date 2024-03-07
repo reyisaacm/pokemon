@@ -1,6 +1,8 @@
-
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
+import 'package:pokemon_flutter/data/interface/provider/i_resource_detail_provider.dart';
+import 'package:pokemon_flutter/data/interface/provider/i_resource_list_provider.dart';
+import 'package:pokemon_flutter/data/interface/repository/i_berry_repository.dart';
 import 'package:pokemon_flutter/models/pokemon_berry_model.dart';
 import 'package:pokemon_flutter/models/enum/resource_type_enum.dart';
 import 'package:pokemon_flutter/models/remote/berry/resource_detail_berry_response_model.dart';
@@ -8,9 +10,9 @@ import 'package:pokemon_flutter/models/remote/item/resource_detail_item_response
 import 'package:pokemon_flutter/models/remote/resource_list_response_model.dart';
 import 'package:pokemon_flutter/models/remote/resource_list_result_response_model.dart';
 
-class PokemonBerryRepository {
-  final PokemonResourceListDataProvider listProvider;
-  final PokemonResourceDetailDataProvider detailProvider;
+class PokemonBerryRepository implements IPokemonBerryRepository {
+  final IResourceListProvider listProvider;
+  final IResourceDetailProvider detailProvider;
 
   PokemonBerryRepository(this.listProvider, this.detailProvider);
 
@@ -31,6 +33,7 @@ class PokemonBerryRepository {
     }
   }
 
+  @override
   Future<List<PokemonBerryModel>> getList() async {
     try {
       final String listDataCount =

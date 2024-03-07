@@ -6,7 +6,7 @@ import 'package:pokemon_flutter/bloc/pokemon_berry/pokemon_berry_bloc.dart';
 import 'package:pokemon_flutter/bloc/pokemon_detail/pokemon_detail_bloc.dart';
 import 'package:pokemon_flutter/bloc/startup/startup_bloc.dart';
 import 'package:pokemon_flutter/bloc/storage/storage_bloc.dart';
-import 'package:pokemon_flutter/data/data_provider/storage_data_provider.dart';
+import 'package:pokemon_flutter/data/data_provider/json_storage_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
 import 'package:pokemon_flutter/data/repository/pokemon_berry_repository.dart';
@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
               PokemonResourceDetailDataProvider()),
         ),
         RepositoryProvider(
-          create: (context) => StorageRepository(StorageDataProvider()),
+          create: (context) => StorageRepository(JsonStorageDataProvider()),
         ),
         RepositoryProvider(
           create: (context) =>
