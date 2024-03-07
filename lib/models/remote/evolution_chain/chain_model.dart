@@ -17,18 +17,6 @@ class ChainResponseModel {
     required this.species,
   });
 
-  ChainResponseModel copyWith({
-    List<ChainResponseModel>? evolvesTo,
-    bool? isBaby,
-    SpeciesResponseModel? species,
-  }) {
-    return ChainResponseModel(
-      evolvesTo: evolvesTo ?? this.evolvesTo,
-      isBaby: isBaby ?? this.isBaby,
-      species: species ?? this.species,
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'evolvesTo': evolvesTo.map((x) => x.toMap()).toList(),
@@ -40,11 +28,11 @@ class ChainResponseModel {
   factory ChainResponseModel.fromMap(Map<String, dynamic> map) {
     return ChainResponseModel(
       evolvesTo: List<ChainResponseModel>.from(
-        (map['evolvesTo'] as List<int>).map<ChainResponseModel>(
+        (map['evolves_to'] as List<dynamic>).map<ChainResponseModel>(
           (x) => ChainResponseModel.fromMap(x as Map<String, dynamic>),
         ),
       ),
-      isBaby: map['isBaby'] as bool,
+      isBaby: map['is_baby'] as bool,
       species:
           SpeciesResponseModel.fromMap(map['species'] as Map<String, dynamic>),
     );
@@ -54,20 +42,4 @@ class ChainResponseModel {
 
   factory ChainResponseModel.fromJson(String source) =>
       ChainResponseModel.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() =>
-      'ChainModel(evolvesTo: $evolvesTo, isBaby: $isBaby, species: $species)';
-
-  @override
-  bool operator ==(covariant ChainResponseModel other) {
-    if (identical(this, other)) return true;
-
-    return listEquals(other.evolvesTo, evolvesTo) &&
-        other.isBaby == isBaby &&
-        other.species == species;
-  }
-
-  @override
-  int get hashCode => evolvesTo.hashCode ^ isBaby.hashCode ^ species.hashCode;
 }

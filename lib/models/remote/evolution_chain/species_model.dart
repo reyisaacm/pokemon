@@ -10,16 +10,6 @@ class SpeciesResponseModel {
     required this.url,
   });
 
-  SpeciesResponseModel copyWith({
-    String? name,
-    String? url,
-  }) {
-    return SpeciesResponseModel(
-      name: name ?? this.name,
-      url: url ?? this.url,
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
@@ -38,17 +28,4 @@ class SpeciesResponseModel {
 
   factory SpeciesResponseModel.fromJson(String source) =>
       SpeciesResponseModel.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() => 'Species(name: $name, url: $url)';
-
-  @override
-  bool operator ==(covariant SpeciesResponseModel other) {
-    if (identical(this, other)) return true;
-
-    return other.name == name && other.url == url;
-  }
-
-  @override
-  int get hashCode => name.hashCode ^ url.hashCode;
 }

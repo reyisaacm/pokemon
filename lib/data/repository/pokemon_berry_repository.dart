@@ -39,10 +39,8 @@ class PokemonBerryRepository {
       ResourceListResponseModel jsonListDataCount =
           ResourceListResponseModel.fromJson(listDataCount);
       final int limit = jsonListDataCount.count;
-
       final String listData = await listProvider.getResourceList(
           limit, 0, ResourceTypeEnum.berry.name);
-
       // final jsonDecoded = jsonDecode(listData);
       final ResourceListResponseModel listResourceData =
           ResourceListResponseModel.fromJson(listData);
@@ -69,7 +67,6 @@ class PokemonBerryRepository {
       }
 
       List<String> listItemDetail = await Future.wait(listItemToFetch);
-
       for (int i = 0; i < listJsonDetailData.length; i++) {
         final String firmness = listJsonDetailData[i].firmness.name;
         final ResourceDetailItemResponseModel jsonItemDetail =

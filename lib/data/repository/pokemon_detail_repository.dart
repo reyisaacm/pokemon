@@ -49,7 +49,7 @@ class PokemonDetailRepository {
           name: responseData.name,
           imageUrl:
               (responseData.sprites.other?.officialArtwork.frontDefault == null)
-                  ? responseData.sprites.frontDefault
+                  ? ""
                   : responseData.sprites.other!.officialArtwork.frontDefault,
           weight: responseData.weight,
           hp: responseData.stats[0].baseStat,

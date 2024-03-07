@@ -6,7 +6,7 @@ import 'package:pokemon_flutter/models/remote/species/evolution_chain_model.dart
 class ResourceDetailSpeciesResponseModel {
   final int baseHappiness;
   final int captureRate;
-  final EvolutionChainModel? evolutionChain;
+  final EvolutionChainResponseModel? evolutionChain;
   final bool formsSwitchable;
   final int genderRate;
   final bool hasGenderDifferences;
@@ -34,38 +34,6 @@ class ResourceDetailSpeciesResponseModel {
     required this.order,
   });
 
-  ResourceDetailSpeciesResponseModel copyWith({
-    int? baseHappiness,
-    int? captureRate,
-    EvolutionChainModel? evolutionChain,
-    bool? formsSwitchable,
-    int? genderRate,
-    bool? hasGenderDifferences,
-    int? hatchCounter,
-    int? id,
-    bool? isBaby,
-    bool? isLegendary,
-    bool? isMythical,
-    String? name,
-    int? order,
-  }) {
-    return ResourceDetailSpeciesResponseModel(
-      baseHappiness: baseHappiness ?? this.baseHappiness,
-      captureRate: captureRate ?? this.captureRate,
-      evolutionChain: evolutionChain ?? this.evolutionChain,
-      formsSwitchable: formsSwitchable ?? this.formsSwitchable,
-      genderRate: genderRate ?? this.genderRate,
-      hasGenderDifferences: hasGenderDifferences ?? this.hasGenderDifferences,
-      hatchCounter: hatchCounter ?? this.hatchCounter,
-      id: id ?? this.id,
-      isBaby: isBaby ?? this.isBaby,
-      isLegendary: isLegendary ?? this.isLegendary,
-      isMythical: isMythical ?? this.isMythical,
-      name: name ?? this.name,
-      order: order ?? this.order,
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'baseHappiness': baseHappiness,
@@ -86,18 +54,18 @@ class ResourceDetailSpeciesResponseModel {
 
   factory ResourceDetailSpeciesResponseModel.fromMap(Map<String, dynamic> map) {
     return ResourceDetailSpeciesResponseModel(
-      baseHappiness: map['baseHappiness'] as int,
-      captureRate: map['captureRate'] as int,
-      evolutionChain: EvolutionChainModel.fromMap(
-          map['evolutionChain'] as Map<String, dynamic>),
-      formsSwitchable: map['formsSwitchable'] as bool,
-      genderRate: map['genderRate'] as int,
-      hasGenderDifferences: map['hasGenderDifferences'] as bool,
-      hatchCounter: map['hatchCounter'] as int,
+      baseHappiness: map['base_happiness'] as int,
+      captureRate: map['capture_rate'] as int,
+      evolutionChain: EvolutionChainResponseModel.fromMap(
+          map['evolution_chain'] as Map<String, dynamic>),
+      formsSwitchable: map['forms_switchable'] as bool,
+      genderRate: map['gender_rate'] as int,
+      hasGenderDifferences: map['has_gender_differences'] as bool,
+      hatchCounter: map['hatch_counter'] as int,
       id: map['id'] as int,
-      isBaby: map['isBaby'] as bool,
-      isLegendary: map['isLegendary'] as bool,
-      isMythical: map['isMythical'] as bool,
+      isBaby: map['is_baby'] as bool,
+      isLegendary: map['is_legendary'] as bool,
+      isMythical: map['is_mythical'] as bool,
       name: map['name'] as String,
       order: map['order'] as int,
     );
@@ -108,45 +76,4 @@ class ResourceDetailSpeciesResponseModel {
   factory ResourceDetailSpeciesResponseModel.fromJson(String source) =>
       ResourceDetailSpeciesResponseModel.fromMap(
           json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'ResourceDetailSpeciesResponseModel(baseHappiness: $baseHappiness, captureRate: $captureRate, evolutionChain: $evolutionChain, formsSwitchable: $formsSwitchable, genderRate: $genderRate, hasGenderDifferences: $hasGenderDifferences, hatchCounter: $hatchCounter, id: $id, isBaby: $isBaby, isLegendary: $isLegendary, isMythical: $isMythical, name: $name, order: $order)';
-  }
-
-  @override
-  bool operator ==(covariant ResourceDetailSpeciesResponseModel other) {
-    if (identical(this, other)) return true;
-
-    return other.baseHappiness == baseHappiness &&
-        other.captureRate == captureRate &&
-        other.evolutionChain == evolutionChain &&
-        other.formsSwitchable == formsSwitchable &&
-        other.genderRate == genderRate &&
-        other.hasGenderDifferences == hasGenderDifferences &&
-        other.hatchCounter == hatchCounter &&
-        other.id == id &&
-        other.isBaby == isBaby &&
-        other.isLegendary == isLegendary &&
-        other.isMythical == isMythical &&
-        other.name == name &&
-        other.order == order;
-  }
-
-  @override
-  int get hashCode {
-    return baseHappiness.hashCode ^
-        captureRate.hashCode ^
-        evolutionChain.hashCode ^
-        formsSwitchable.hashCode ^
-        genderRate.hashCode ^
-        hasGenderDifferences.hashCode ^
-        hatchCounter.hashCode ^
-        id.hashCode ^
-        isBaby.hashCode ^
-        isLegendary.hashCode ^
-        isMythical.hashCode ^
-        name.hashCode ^
-        order.hashCode;
-  }
 }

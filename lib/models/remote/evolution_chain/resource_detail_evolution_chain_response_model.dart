@@ -12,16 +12,6 @@ class ResourceDetailEvolutionChainResponseModel {
     required this.id,
   });
 
-  ResourceDetailEvolutionChainResponseModel copyWith({
-    ChainResponseModel? chain,
-    int? id,
-  }) {
-    return ResourceDetailEvolutionChainResponseModel(
-      chain: chain ?? this.chain,
-      id: id ?? this.id,
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'chain': chain?.toMap(),
@@ -42,18 +32,4 @@ class ResourceDetailEvolutionChainResponseModel {
   factory ResourceDetailEvolutionChainResponseModel.fromJson(String source) =>
       ResourceDetailEvolutionChainResponseModel.fromMap(
           json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() =>
-      'ResourceDetailEvolutionChainResponseModel(chain: $chain, id: $id)';
-
-  @override
-  bool operator ==(covariant ResourceDetailEvolutionChainResponseModel other) {
-    if (identical(this, other)) return true;
-
-    return other.chain == chain && other.id == id;
-  }
-
-  @override
-  int get hashCode => chain.hashCode ^ id.hashCode;
 }
