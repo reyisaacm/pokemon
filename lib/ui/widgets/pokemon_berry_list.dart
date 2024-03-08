@@ -46,6 +46,8 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
       }
 
       if (state is PokemonBerrySuccess) {
+        data = [];
+        selectedData = null;
         data.addAll(state.listData);
       }
 
@@ -60,7 +62,9 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
             width: MediaQuery.of(context).size.width * 0.75,
             height: 50,
             decoration: BoxDecoration(
-                border: Border.all(), borderRadius: BorderRadius.circular(5)),
+              border: Border.all(color: Theme.of(context).colorScheme.primary),
+              borderRadius: BorderRadius.circular(5),
+            ),
             child: (ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: data.length,

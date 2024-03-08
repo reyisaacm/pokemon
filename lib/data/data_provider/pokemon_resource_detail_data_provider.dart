@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
+import 'package:pokemon_flutter/data/interface/provider/i_resource_detail_provider.dart';
 
-class PokemonResourceDetailDataProvider {
+class PokemonResourceDetailDataProvider implements IResourceDetailProvider {
+  @override
   Future<String> getResourceDetail(String url) async {
     try {
       final res = await http.get(Uri.parse(url));
