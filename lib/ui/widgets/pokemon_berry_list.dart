@@ -46,6 +46,8 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
       }
 
       if (state is PokemonBerrySuccess) {
+        data = [];
+        selectedData = null;
         data.addAll(state.listData);
       }
 
