@@ -35,7 +35,7 @@ class PokemonButton extends StatelessWidget {
         onPressed: isEnabled ? onTap : null,
         child: Text(
           buttonText,
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
         ),
       ),
     );
