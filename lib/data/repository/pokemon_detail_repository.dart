@@ -1,4 +1,3 @@
-import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
 import 'package:pokemon_flutter/data/interface/provider/i_resource_detail_provider.dart';
 import 'package:pokemon_flutter/data/interface/repository/i_pokemon_detail_repository.dart';
 import 'package:pokemon_flutter/models/enum/resource_type_enum.dart';
