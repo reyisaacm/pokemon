@@ -1,4 +1,3 @@
-
 import "package:flutter/material.dart";
 
 class PokememonItem extends StatelessWidget {
@@ -17,10 +16,25 @@ class PokememonItem extends StatelessWidget {
     return Column(
       children: [
         Container(
-          color: isSelected ? Theme.of(context).colorScheme.tertiary : null,
+          color: isSelected ? Theme.of(context).colorScheme.secondary : null,
           child: imageUrl == ""
               ? Image.asset("assets/images/pokemon-icon.png")
-              : Image.network(imageUrl),
+              : Image.network(
+                  imageUrl,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 24.0, horizontal: 16),
+                      child: CircularProgressIndicator.adaptive(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
+                ),
         )
       ],
     );

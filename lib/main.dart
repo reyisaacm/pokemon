@@ -74,11 +74,15 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: 'Pokemon App',
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+            colorSchemeSeed: const Color.fromRGBO(92, 131, 116, 1),
             useMaterial3: true,
           ),
-          // home: const HomeScreen(),
-          // home: const DetailScreen(id: 1),
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            brightness: Brightness.dark,
+            colorSchemeSeed: const Color.fromRGBO(158, 200, 185, 1),
+          ),
+          themeMode: ThemeMode.system,
           home: BlocBuilder<StartupBloc, StartupState>(
             builder: (context, state) {
               StartupBloc startupBloc = context.read<StartupBloc>();
