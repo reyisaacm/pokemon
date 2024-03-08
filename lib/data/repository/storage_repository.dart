@@ -1,12 +1,15 @@
 import 'dart:convert';
 
-import 'package:pokemon_flutter/data/data_provider/storage_data_provider.dart';
+import 'package:pokemon_flutter/data/data_provider/json_storage_data_provider.dart';
+import 'package:pokemon_flutter/data/interface/provider/i_storage_provider.dart';
+import 'package:pokemon_flutter/data/interface/repository/i_storage_repository.dart';
 import 'package:pokemon_flutter/models/pokemon_detail_model.dart';
 
-class StorageRepository {
-  final StorageDataProvider provider;
+class StorageRepository implements IStorageRepository {
+  final IStorageProvider provider;
   StorageRepository(this.provider);
 
+  @override
   Future<PokemonDetailModel?> getData() async {
     try {
       String storageData = await provider.read();
@@ -25,6 +28,7 @@ class StorageRepository {
     }
   }
 
+  @override
   Future<PokemonDetailModel> writeData(PokemonDetailModel data) async {
     try {
       await provider.write(data.toJson());
@@ -36,6 +40,7 @@ class StorageRepository {
     }
   }
 
+  @override
   Future<void> clearData() async {
     try {
       await provider.write("");

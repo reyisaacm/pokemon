@@ -1,7 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'package:pokemon_flutter/utils/dio_service.dart';
+import 'package:pokemon_flutter/data/interface/provider/i_resource_list_provider.dart';
 
-class PokemonResourceListDataProvider {
+class PokemonResourceListDataProvider implements IResourceListProvider {
+  @override
   Future<String> getResourceList(
       int limit, int offset, String resourceName) async {
     try {

@@ -1,5 +1,6 @@
-
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
+import 'package:pokemon_flutter/data/interface/provider/i_resource_detail_provider.dart';
+import 'package:pokemon_flutter/data/interface/repository/i_pokemon_detail_repository.dart';
 import 'package:pokemon_flutter/models/enum/resource_type_enum.dart';
 import 'package:pokemon_flutter/models/pokemon_detail_model.dart';
 import 'package:pokemon_flutter/models/pokemon_species_evolution_chain_model.dart';
@@ -27,11 +28,12 @@ List<int> _getEvolutionSpeciesList(
   }
 }
 
-class PokemonDetailRepository {
-  final PokemonResourceDetailDataProvider detailsDataProvider;
+class PokemonDetailRepository implements IPokemonDetailRepository {
+  final IResourceDetailProvider detailsDataProvider;
 
   PokemonDetailRepository(this.detailsDataProvider);
 
+  @override
   Future<PokemonDetailModel> getData(int id) async {
     try {
       PokemonDetailModel data;

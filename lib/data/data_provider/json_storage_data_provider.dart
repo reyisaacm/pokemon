@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:pokemon_flutter/data/interface/provider/i_storage_provider.dart';
 
-class StorageDataProvider {
+class JsonStorageDataProvider implements IStorageProvider {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
@@ -22,6 +23,7 @@ class StorageDataProvider {
     return file;
   }
 
+  @override
   Future<String> read() async {
     try {
       final file = await _localFile;
@@ -36,6 +38,7 @@ class StorageDataProvider {
     }
   }
 
+  @override
   Future<void> write(String data) async {
     final file = await _localFile;
 

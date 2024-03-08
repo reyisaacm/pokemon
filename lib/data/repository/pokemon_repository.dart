@@ -1,15 +1,17 @@
-
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
 import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
+import 'package:pokemon_flutter/data/interface/provider/i_resource_detail_provider.dart';
+import 'package:pokemon_flutter/data/interface/provider/i_resource_list_provider.dart';
+import 'package:pokemon_flutter/data/interface/repository/i_pokemon_repository.dart';
 import 'package:pokemon_flutter/models/enum/resource_type_enum.dart';
 import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
 import 'package:pokemon_flutter/models/remote/pokemon/resource_detail_pokemon_response_model.dart';
 import 'package:pokemon_flutter/models/remote/resource_list_response_model.dart';
 import 'package:pokemon_flutter/models/remote/resource_list_result_response_model.dart';
 
-class PokemonRepository {
-  final PokemonResourceListDataProvider listProvider;
-  final PokemonResourceDetailDataProvider detailDataProvider;
+class PokemonRepository implements IPokemonRepository {
+  final IResourceListProvider listProvider;
+  final IResourceDetailProvider detailDataProvider;
 
   PokemonRepository(this.listProvider, this.detailDataProvider);
 
@@ -44,6 +46,7 @@ class PokemonRepository {
     return listPokemonDetail;
   }
 
+  @override
   Future<List<PokemonListItemModel>> getList(int limit, int offset) async {
     try {
       final List<PokemonListItemModel> returnList = [];
@@ -71,6 +74,7 @@ class PokemonRepository {
     }
   }
 
+  @override
   Future<List<PokemonListItemModel>> getListAll(
       int limit, int offset, String search) async {
     try {
