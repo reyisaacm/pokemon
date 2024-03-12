@@ -1,3 +1,4 @@
+import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon_berry/pokemon_berry_bloc.dart";
@@ -78,7 +79,8 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
                       color: isSelected
                           ? Theme.of(context).colorScheme.tertiary
                           : null,
-                      child: Image.network(data[index].imageUrl),
+                      // child: Image.network(data[index].imageUrl),
+                      child: CachedNetworkImage(imageUrl: data[index].imageUrl),
                     ),
                   );
                 })),

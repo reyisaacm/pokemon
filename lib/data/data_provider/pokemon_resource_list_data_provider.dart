@@ -9,7 +9,8 @@ class PokemonResourceListDataProvider implements IResourceListProvider {
     try {
       final res = await http.get(Uri.parse(
           "https://pokeapi.co/api/v2/$resourceName/?limit=$limit&offset=$offset"));
-      // final res = await DioService.instance
+      // final res = await dioService.get(
+      //     "https://pokeapi.co/api/v2/$resourceName/?limit=$limit&offset=$offset");
       return res.body;
     } catch (e) {
       // print(s);
