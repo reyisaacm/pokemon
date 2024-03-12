@@ -1,7 +1,6 @@
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter/foundation.dart";
 import 'package:pokemon_flutter/data/interface/repository/i_berry_repository.dart';
-import "package:pokemon_flutter/data/repository/pokemon_berry_repository.dart";
 import 'package:pokemon_flutter/models/pokemon_berry_model.dart';
 
 part 'pokemon_berry_event.dart';

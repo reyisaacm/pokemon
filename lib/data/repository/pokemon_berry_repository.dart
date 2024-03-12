@@ -1,5 +1,3 @@
-import 'package:pokemon_flutter/data/data_provider/pokemon_resource_detail_data_provider.dart';
-import 'package:pokemon_flutter/data/data_provider/pokemon_resource_list_data_provider.dart';
 import 'package:pokemon_flutter/data/interface/provider/i_resource_detail_provider.dart';
 import 'package:pokemon_flutter/data/interface/provider/i_resource_list_provider.dart';
 import 'package:pokemon_flutter/data/interface/repository/i_berry_repository.dart';

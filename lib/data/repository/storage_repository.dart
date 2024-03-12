@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:pokemon_flutter/data/data_provider/json_storage_data_provider.dart';
 import 'package:pokemon_flutter/data/interface/provider/i_storage_provider.dart';
 import 'package:pokemon_flutter/data/interface/repository/i_storage_repository.dart';
 import 'package:pokemon_flutter/models/pokemon_detail_model.dart';
