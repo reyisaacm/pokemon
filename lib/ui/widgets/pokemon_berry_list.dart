@@ -79,8 +79,10 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
                       color: isSelected
                           ? Theme.of(context).colorScheme.tertiary
                           : null,
-                      // child: Image.network(data[index].imageUrl),
-                      child: CachedNetworkImage(imageUrl: data[index].imageUrl),
+                      child: CachedNetworkImage(
+                          imageUrl:
+                              CachedNetworkImageProvider(data[index].imageUrl)
+                                  .url),
                     ),
                   );
                 })),
