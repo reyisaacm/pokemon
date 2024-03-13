@@ -5,6 +5,7 @@ import "package:pokemon_flutter/bloc/pokemon_berry/pokemon_berry_bloc.dart";
 import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
 import "package:pokemon_flutter/models/pokemon_berry_model.dart";
 import 'package:pokemon_flutter/ui/widgets/pokemon_button.dart';
+import "package:pokemon_flutter/ui/widgets/pokemon_image.dart";
 
 class PokemonBerryList extends StatefulWidget {
   const PokemonBerryList({
@@ -72,19 +73,18 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
                 itemBuilder: (context, index) {
                   bool isSelected = data[index].isSelected;
                   return GestureDetector(
-                    onTap: () {
-                      _pokemonBerryBloc.add(BerrySelected(data, index));
-                    },
-                    child: Container(
-                      color: isSelected
-                          ? Theme.of(context).colorScheme.tertiary
-                          : null,
-                      child: CachedNetworkImage(
-                          imageUrl:
-                              CachedNetworkImageProvider(data[index].imageUrl)
-                                  .url),
-                    ),
-                  );
+                      onTap: () {
+                        _pokemonBerryBloc.add(BerrySelected(data, index));
+                      },
+                      child: Container(
+                        color: isSelected
+                            ? Theme.of(context).colorScheme.tertiary
+                            : null,
+                        // child: Image(
+                        //     image: CachedNetworkImageProvider(
+                        //         data[index].imageUrl))),
+                        child: PokemonImage(imageUrl: data[index].imageUrl),
+                      ));
                 })),
           ),
           Text(selectedData != null

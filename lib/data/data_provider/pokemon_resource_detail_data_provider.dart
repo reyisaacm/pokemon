@@ -1,6 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'package:pokemon_flutter/data/interface/provider/i_resource_detail_provider.dart';
-import 'package:pokemon_flutter/utils/dio_service.dart';
 
 class PokemonResourceDetailDataProvider implements IResourceDetailProvider {
   @override

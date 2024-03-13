@@ -1,3 +1,4 @@
+import 'package:memory_cache/memory_cache.dart';
 import 'package:pokemon_flutter/data/interface/provider/i_resource_detail_provider.dart';
 import 'package:pokemon_flutter/data/interface/provider/i_resource_list_provider.dart';
 import 'package:pokemon_flutter/data/interface/repository/i_pokemon_repository.dart';
@@ -78,16 +79,27 @@ class PokemonRepository implements IPokemonRepository {
     try {
       //Get total count
       final List<PokemonListItemModel> returnList = [];
+      const String cacheKey = "search";
+      List<ResourceListResultResponseModel> listPokemon = [];
 
-      final ResourceListResponseModel listDataInitial =
-          await _getResourceList(limit, offset, null);
-      final int count = listDataInitial.count;
+      final cacheValue = MemoryCache.instance
+          .read<List<ResourceListResultResponseModel>>(cacheKey);
+      if (cacheValue == null) {
+        final ResourceListResponseModel listDataInitial =
+            await _getResourceList(limit, offset, null);
+        final int count = listDataInitial.count;
 
-      final ResourceListResponseModel listData =
-          await _getResourceList(count, offset, null);
-      List<ResourceListResultResponseModel> listPokemon = listData.results;
+        final ResourceListResponseModel listData =
+            await _getResourceList(count, offset, null);
+        listPokemon = listData.results;
 
-      listPokemon = listData.results
+        MemoryCache()
+            .create(cacheKey, listPokemon, expiry: const Duration(hours: 1));
+      } else {
+        listPokemon = cacheValue;
+      }
+
+      listPokemon = listPokemon
           .where((x) => x.name.toLowerCase().contains(search.toLowerCase()))
           .skip(offset)
           .take(limit)
