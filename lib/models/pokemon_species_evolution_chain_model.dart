@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class PokemonSpeciesEvolutionChainModel {
@@ -22,4 +24,34 @@ class PokemonSpeciesEvolutionChainModel {
       map['weight'] as int,
     );
   }
+
+  @override
+  bool operator ==(covariant PokemonSpeciesEvolutionChainModel other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id && other.weight == weight;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ weight.hashCode;
+
+  PokemonSpeciesEvolutionChainModel copyWith({
+    int? id,
+    int? weight,
+  }) {
+    return PokemonSpeciesEvolutionChainModel(
+      id ?? this.id,
+      weight ?? this.weight,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory PokemonSpeciesEvolutionChainModel.fromJson(String source) =>
+      PokemonSpeciesEvolutionChainModel.fromMap(
+          json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() =>
+      'PokemonSpeciesEvolutionChainModel(id: $id, weight: $weight)';
 }

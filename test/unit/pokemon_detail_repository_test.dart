@@ -45,7 +45,7 @@ void main() {
           specialDefense: 65,
           speed: 45,
           previousBerryType: "",
-          evolution: PokemonSpeciesEvolutionChainModel(2, 3010));
+          evolution: PokemonSpeciesEvolutionChainModel(2, 130));
 
       final expectedResultEvolution = PokemonSpeciesEvolutionChainModel(2, 130);
       expect(data, expectedResult);
