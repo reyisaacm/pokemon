@@ -1,3 +1,5 @@
+import "package:elegant_notification/elegant_notification.dart";
+import "package:elegant_notification/resources/arrays.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon_berry/pokemon_berry_bloc.dart";
@@ -100,6 +102,14 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
                 onTap: () {
                   _storageBloc.add(StorageWeightUpdated(
                       selectedData!.weight, selectedData!.firmness));
+                  ElegantNotification.info(
+                    description: Text("You ate ${selectedData!.name}"),
+                    showProgressIndicator: false,
+                    displayCloseButton: false,
+                    position: Alignment.bottomCenter,
+                    autoDismiss: true,
+                    animation: AnimationType.fromBottom,
+                  ).show(context);
                 },
                 buttonText: "Feed Pokemon"),
           )
