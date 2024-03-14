@@ -1,4 +1,3 @@
-import 'package:memory_cache/memory_cache.dart';
 import 'package:pokemon_flutter/data/interface/provider/i_resource_detail_provider.dart';
 import 'package:pokemon_flutter/data/interface/provider/i_resource_list_provider.dart';
 import 'package:pokemon_flutter/data/interface/repository/i_pokemon_repository.dart';
@@ -7,6 +6,7 @@ import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
 import 'package:pokemon_flutter/models/remote/pokemon/resource_detail_pokemon_response_model.dart';
 import 'package:pokemon_flutter/models/remote/resource_list_response_model.dart';
 import 'package:pokemon_flutter/models/remote/resource_list_result_response_model.dart';
+import 'package:pokemon_flutter/utils/memory_cache.dart';
 
 class PokemonRepository implements IPokemonRepository {
   final IResourceListProvider listProvider;
@@ -82,8 +82,9 @@ class PokemonRepository implements IPokemonRepository {
       const String cacheKey = "search";
       List<ResourceListResultResponseModel> listPokemon = [];
 
-      final cacheValue = MemoryCache.instance
-          .read<List<ResourceListResultResponseModel>>(cacheKey);
+      final cacheValue =
+          localCache.read<List<ResourceListResultResponseModel>>(cacheKey);
+      // print("Current cache value pokemon: ${cacheValue}");
       if (cacheValue == null) {
         final ResourceListResponseModel listDataInitial =
             await _getResourceList(limit, offset, null);
@@ -93,8 +94,8 @@ class PokemonRepository implements IPokemonRepository {
             await _getResourceList(count, offset, null);
         listPokemon = listData.results;
 
-        MemoryCache()
-            .create(cacheKey, listPokemon, expiry: const Duration(hours: 1));
+        localCache.create(cacheKey, listPokemon,
+            expiry: const Duration(hours: 1));
       } else {
         listPokemon = cacheValue;
       }
