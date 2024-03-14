@@ -32,14 +32,14 @@ class PokemonRepository implements IPokemonRepository {
       listDetailToFetch.add(detailDataProvider.getResourceDetail(a.url));
     }
 
-    final List<String> listDetail = await Future.wait(listDetailToFetch);
+    final List<String?> listDetail = await Future.wait(listDetailToFetch);
 
-    for (String a in listDetail) {
-      // final tmp = jsonDecode(a) as Map<String, dynamic>;
-      // print(tmp['name']);
-      final ResourceDetailPokemonResponseModel data =
-          ResourceDetailPokemonResponseModel.fromJson(a);
-      listPokemonDetail.add(data);
+    for (String? a in listDetail) {
+      if (a != null) {
+        final ResourceDetailPokemonResponseModel data =
+            ResourceDetailPokemonResponseModel.fromJson(a);
+        listPokemonDetail.add(data);
+      }
     }
 
     return listPokemonDetail;

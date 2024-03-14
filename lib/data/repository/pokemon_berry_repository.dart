@@ -61,29 +61,33 @@ class PokemonBerryRepository implements IPokemonBerryRepository {
           listDetailToFetch.add(detailProvider.getResourceDetail(a.url));
         }
 
-        List<String> listDetail = await Future.wait(listDetailToFetch);
+        List<String?> listDetail = await Future.wait(listDetailToFetch);
 
-        for (final String a in listDetail) {
-          ResourceDetailBerryResponseModel jsonDetailData =
-              ResourceDetailBerryResponseModel.fromJson(a);
-          listJsonDetailData.add(jsonDetailData);
-          listItemToFetch
-              .add(detailProvider.getResourceDetail(jsonDetailData.item.url));
+        for (final String? a in listDetail) {
+          if (a != null) {
+            ResourceDetailBerryResponseModel jsonDetailData =
+                ResourceDetailBerryResponseModel.fromJson(a);
+            listJsonDetailData.add(jsonDetailData);
+            listItemToFetch
+                .add(detailProvider.getResourceDetail(jsonDetailData.item.url));
+          }
         }
 
-        List<String> listItemDetail = await Future.wait(listItemToFetch);
+        List<String?> listItemDetail = await Future.wait(listItemToFetch);
         for (int i = 0; i < listJsonDetailData.length; i++) {
-          final String firmness = listJsonDetailData[i].firmness.name;
-          final ResourceDetailItemResponseModel jsonItemDetail =
-              ResourceDetailItemResponseModel.fromJson(listItemDetail[i]);
+          if (listItemDetail[i] != null) {
+            final String firmness = listJsonDetailData[i].firmness.name;
+            final ResourceDetailItemResponseModel jsonItemDetail =
+                ResourceDetailItemResponseModel.fromJson(listItemDetail[i]!);
 
-          final PokemonBerryModel data = PokemonBerryModel(
-              id: listJsonDetailData[i].id,
-              firmness: firmness,
-              name: jsonItemDetail.name,
-              imageUrl: jsonItemDetail.sprites.spritesDefault,
-              weight: _getFirmnessWeight(firmness));
-          listBerry.add(data);
+            final PokemonBerryModel data = PokemonBerryModel(
+                id: listJsonDetailData[i].id,
+                firmness: firmness,
+                name: jsonItemDetail.name,
+                imageUrl: jsonItemDetail.sprites.spritesDefault,
+                weight: _getFirmnessWeight(firmness));
+            listBerry.add(data);
+          }
         }
         localCache.create(cacheKey, listBerry,
             expiry: const Duration(hours: 1));
