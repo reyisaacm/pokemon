@@ -1,3 +1,5 @@
+import "package:elegant_notification/elegant_notification.dart";
+import "package:elegant_notification/resources/arrays.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon_berry/pokemon_berry_bloc.dart";
@@ -100,6 +102,25 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
                 onTap: () {
                   _storageBloc.add(StorageWeightUpdated(
                       selectedData!.weight, selectedData!.firmness));
+
+                  ElegantNotification(
+                    icon: Icon(
+                      Icons.check,
+                      color: Theme.of(context).colorScheme.onTertiary,
+                    ),
+                    description: Text(
+                      "You fed ${selectedData!.name}",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onTertiary),
+                    ),
+                    showProgressIndicator: false,
+                    displayCloseButton: false,
+                    height: 25,
+                    position: Alignment.bottomCenter,
+                    autoDismiss: true,
+                    animation: AnimationType.fromBottom,
+                    background: Theme.of(context).colorScheme.tertiary,
+                  ).show(context);
                 },
                 buttonText: "Feed Pokemon"),
           )
