@@ -6,6 +6,7 @@ import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
 import 'package:pokemon_flutter/models/remote/pokemon/resource_detail_pokemon_response_model.dart';
 import 'package:pokemon_flutter/models/remote/resource_list_response_model.dart';
 import 'package:pokemon_flutter/models/remote/resource_list_result_response_model.dart';
+import 'package:pokemon_flutter/utils/memory_cache.dart';
 
 class PokemonRepository implements IPokemonRepository {
   final IResourceListProvider listProvider;
@@ -31,14 +32,14 @@ class PokemonRepository implements IPokemonRepository {
       listDetailToFetch.add(detailDataProvider.getResourceDetail(a.url));
     }
 
-    final List<String> listDetail = await Future.wait(listDetailToFetch);
+    final List<String?> listDetail = await Future.wait(listDetailToFetch);
 
-    for (String a in listDetail) {
-      // final tmp = jsonDecode(a) as Map<String, dynamic>;
-      // print(tmp['name']);
-      final ResourceDetailPokemonResponseModel data =
-          ResourceDetailPokemonResponseModel.fromJson(a);
-      listPokemonDetail.add(data);
+    for (String? a in listDetail) {
+      if (a != null) {
+        final ResourceDetailPokemonResponseModel data =
+            ResourceDetailPokemonResponseModel.fromJson(a);
+        listPokemonDetail.add(data);
+      }
     }
 
     return listPokemonDetail;
@@ -78,16 +79,28 @@ class PokemonRepository implements IPokemonRepository {
     try {
       //Get total count
       final List<PokemonListItemModel> returnList = [];
+      const String cacheKey = "search";
+      List<ResourceListResultResponseModel> listPokemon = [];
 
-      final ResourceListResponseModel listDataInitial =
-          await _getResourceList(limit, offset, null);
-      final int count = listDataInitial.count;
+      final cacheValue =
+          localCache.read<List<ResourceListResultResponseModel>>(cacheKey);
+      // print("Current cache value pokemon: ${cacheValue}");
+      if (cacheValue == null) {
+        final ResourceListResponseModel listDataInitial =
+            await _getResourceList(limit, offset, null);
+        final int count = listDataInitial.count;
 
-      final ResourceListResponseModel listData =
-          await _getResourceList(count, offset, null);
-      List<ResourceListResultResponseModel> listPokemon = listData.results;
+        final ResourceListResponseModel listData =
+            await _getResourceList(count, offset, null);
+        listPokemon = listData.results;
 
-      listPokemon = listData.results
+        localCache.create(cacheKey, listPokemon,
+            expiry: const Duration(hours: 1));
+      } else {
+        listPokemon = cacheValue;
+      }
+
+      listPokemon = listPokemon
           .where((x) => x.name.toLowerCase().contains(search.toLowerCase()))
           .skip(offset)
           .take(limit)

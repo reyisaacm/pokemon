@@ -1,9 +1,12 @@
+import "package:elegant_notification/elegant_notification.dart";
+import "package:elegant_notification/resources/arrays.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:pokemon_flutter/bloc/pokemon_berry/pokemon_berry_bloc.dart";
 import "package:pokemon_flutter/bloc/storage/storage_bloc.dart";
 import "package:pokemon_flutter/models/pokemon_berry_model.dart";
 import 'package:pokemon_flutter/ui/widgets/pokemon_button.dart';
+import "package:pokemon_flutter/ui/widgets/pokemon_image.dart";
 
 class PokemonBerryList extends StatefulWidget {
   const PokemonBerryList({
@@ -71,16 +74,18 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
                 itemBuilder: (context, index) {
                   bool isSelected = data[index].isSelected;
                   return GestureDetector(
-                    onTap: () {
-                      _pokemonBerryBloc.add(BerrySelected(data, index));
-                    },
-                    child: Container(
-                      color: isSelected
-                          ? Theme.of(context).colorScheme.tertiary
-                          : null,
-                      child: Image.network(data[index].imageUrl),
-                    ),
-                  );
+                      onTap: () {
+                        _pokemonBerryBloc.add(BerrySelected(data, index));
+                      },
+                      child: Container(
+                        color: isSelected
+                            ? Theme.of(context).colorScheme.tertiary
+                            : null,
+                        // child: Image(
+                        //     image: CachedNetworkImageProvider(
+                        //         data[index].imageUrl))),
+                        child: PokemonImage(imageUrl: data[index].imageUrl),
+                      ));
                 })),
           ),
           Text(selectedData != null
@@ -97,6 +102,25 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
                 onTap: () {
                   _storageBloc.add(StorageWeightUpdated(
                       selectedData!.weight, selectedData!.firmness));
+
+                  ElegantNotification(
+                    icon: Icon(
+                      Icons.check,
+                      color: Theme.of(context).colorScheme.onTertiary,
+                    ),
+                    description: Text(
+                      "You fed ${selectedData!.name}",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onTertiary),
+                    ),
+                    showProgressIndicator: false,
+                    displayCloseButton: false,
+                    height: 25,
+                    position: Alignment.bottomCenter,
+                    autoDismiss: true,
+                    animation: AnimationType.fromBottom,
+                    background: Theme.of(context).colorScheme.tertiary,
+                  ).show(context);
                 },
                 buttonText: "Feed Pokemon"),
           )

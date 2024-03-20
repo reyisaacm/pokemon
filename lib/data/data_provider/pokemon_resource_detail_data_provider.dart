@@ -6,6 +6,7 @@ class PokemonResourceDetailDataProvider implements IResourceDetailProvider {
   Future<String> getResourceDetail(String url) async {
     try {
       final res = await http.get(Uri.parse(url));
+      // final res = await dioService.get(url);
 
       return res.body;
     } catch (e) {

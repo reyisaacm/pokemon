@@ -7,6 +7,7 @@ import 'package:pokemon_flutter/models/remote/berry/resource_detail_berry_respon
 import 'package:pokemon_flutter/models/remote/item/resource_detail_item_response_model.dart';
 import 'package:pokemon_flutter/models/remote/resource_list_response_model.dart';
 import 'package:pokemon_flutter/models/remote/resource_list_result_response_model.dart';
+import 'package:pokemon_flutter/utils/memory_cache.dart';
 
 class PokemonBerryRepository implements IPokemonBerryRepository {
   final IResourceListProvider listProvider;
@@ -34,51 +35,64 @@ class PokemonBerryRepository implements IPokemonBerryRepository {
   @override
   Future<List<PokemonBerryModel>> getList() async {
     try {
-      final String listDataCount =
-          await listProvider.getResourceList(1, 0, ResourceTypeEnum.berry.name);
-      ResourceListResponseModel jsonListDataCount =
-          ResourceListResponseModel.fromJson(listDataCount);
-      final int limit = jsonListDataCount.count;
-      final String listData = await listProvider.getResourceList(
-          limit, 0, ResourceTypeEnum.berry.name);
-      // final jsonDecoded = jsonDecode(listData);
-      final ResourceListResponseModel listResourceData =
-          ResourceListResponseModel.fromJson(listData);
-      final List<ResourceListResultResponseModel> listObj =
-          listResourceData.results;
+      const String cacheKey = "berryList";
+      final cacheValue = localCache.read<List<PokemonBerryModel>>(cacheKey);
 
-      final List<PokemonBerryModel> listBerry = [];
+      List<PokemonBerryModel> listBerry = [];
       List<Future<String>> listDetailToFetch = [];
       List<Future<String>> listItemToFetch = [];
       List<ResourceDetailBerryResponseModel> listJsonDetailData = [];
+      // print("Current cache value: ${cacheValue}");
+      if (cacheValue == null) {
+        final String listDataCount = await listProvider.getResourceList(
+            1, 0, ResourceTypeEnum.berry.name);
+        ResourceListResponseModel jsonListDataCount =
+            ResourceListResponseModel.fromJson(listDataCount);
+        final int limit = jsonListDataCount.count;
+        final String listData = await listProvider.getResourceList(
+            limit, 0, ResourceTypeEnum.berry.name);
+        // final jsonDecoded = jsonDecode(listData);
+        final ResourceListResponseModel listResourceData =
+            ResourceListResponseModel.fromJson(listData);
+        final List<ResourceListResultResponseModel> listObj =
+            listResourceData.results;
 
-      for (final ResourceListResultResponseModel a in listObj) {
-        listDetailToFetch.add(detailProvider.getResourceDetail(a.url));
-      }
+        for (final ResourceListResultResponseModel a in listObj) {
+          listDetailToFetch.add(detailProvider.getResourceDetail(a.url));
+        }
 
-      List<String> listDetail = await Future.wait(listDetailToFetch);
+        List<String?> listDetail = await Future.wait(listDetailToFetch);
 
-      for (final String a in listDetail) {
-        ResourceDetailBerryResponseModel jsonDetailData =
-            ResourceDetailBerryResponseModel.fromJson(a);
-        listJsonDetailData.add(jsonDetailData);
-        listItemToFetch
-            .add(detailProvider.getResourceDetail(jsonDetailData.item.url));
-      }
+        for (final String? a in listDetail) {
+          if (a != null) {
+            ResourceDetailBerryResponseModel jsonDetailData =
+                ResourceDetailBerryResponseModel.fromJson(a);
+            listJsonDetailData.add(jsonDetailData);
+            listItemToFetch
+                .add(detailProvider.getResourceDetail(jsonDetailData.item.url));
+          }
+        }
 
-      List<String> listItemDetail = await Future.wait(listItemToFetch);
-      for (int i = 0; i < listJsonDetailData.length; i++) {
-        final String firmness = listJsonDetailData[i].firmness.name;
-        final ResourceDetailItemResponseModel jsonItemDetail =
-            ResourceDetailItemResponseModel.fromJson(listItemDetail[i]);
+        List<String?> listItemDetail = await Future.wait(listItemToFetch);
+        for (int i = 0; i < listJsonDetailData.length; i++) {
+          if (listItemDetail[i] != null) {
+            final String firmness = listJsonDetailData[i].firmness.name;
+            final ResourceDetailItemResponseModel jsonItemDetail =
+                ResourceDetailItemResponseModel.fromJson(listItemDetail[i]!);
 
-        final PokemonBerryModel data = PokemonBerryModel(
-            id: listJsonDetailData[i].id,
-            firmness: firmness,
-            name: jsonItemDetail.name,
-            imageUrl: jsonItemDetail.sprites.spritesDefault,
-            weight: _getFirmnessWeight(firmness));
-        listBerry.add(data);
+            final PokemonBerryModel data = PokemonBerryModel(
+                id: listJsonDetailData[i].id,
+                firmness: firmness,
+                name: jsonItemDetail.name,
+                imageUrl: jsonItemDetail.sprites.spritesDefault,
+                weight: _getFirmnessWeight(firmness));
+            listBerry.add(data);
+          }
+        }
+        localCache.create(cacheKey, listBerry,
+            expiry: const Duration(hours: 1));
+      } else {
+        listBerry = cacheValue;
       }
 
       return listBerry;
