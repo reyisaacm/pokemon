@@ -102,13 +102,24 @@ class _PokemonBerryListState extends State<PokemonBerryList> {
                 onTap: () {
                   _storageBloc.add(StorageWeightUpdated(
                       selectedData!.weight, selectedData!.firmness));
-                  ElegantNotification.info(
-                    description: Text("You ate ${selectedData!.name}"),
+
+                  ElegantNotification(
+                    icon: Icon(
+                      Icons.check,
+                      color: Theme.of(context).colorScheme.onTertiary,
+                    ),
+                    description: Text(
+                      "You fed ${selectedData!.name}",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onTertiary),
+                    ),
                     showProgressIndicator: false,
                     displayCloseButton: false,
+                    height: 25,
                     position: Alignment.bottomCenter,
                     autoDismiss: true,
                     animation: AnimationType.fromBottom,
+                    background: Theme.of(context).colorScheme.tertiary,
                   ).show(context);
                 },
                 buttonText: "Feed Pokemon"),
