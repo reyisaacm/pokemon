@@ -7,7 +7,7 @@ workflows:
       groups:
         - keystore_credentials
       android_signing:
-        - keystore_reference
+        - android-keystore
       flutter: 3.19.3
     cache:
       cache_paths:
