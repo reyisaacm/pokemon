@@ -25,6 +25,7 @@ workflows:
         script: flutter test
       - name: Build
         script: flutter build apk
+        ignore_failure: false
     artifacts:
       - build/**/outputs/apk/**/*.apk
     publishing:
