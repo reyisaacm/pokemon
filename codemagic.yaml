@@ -8,8 +8,8 @@ workflows:
         - keystore_credentials
       android_signing:
         - android-keystore
-      vars:
-        GITHUB_TOKEN
+      # vars:
+      #   GITHUB_TOKEN
       flutter: 3.19.3
     cache:
       cache_paths:
