@@ -32,17 +32,18 @@ workflows:
     artifacts:
       - build/**/outputs/apk/**/*.apk
     publishing:
-      - name: Publish to GitHub
-        script: | 
-         #!/usr/bin/env zsh
+      scripts:
+        - name: Release to github
+          script: | 
+          #!/usr/bin/env zsh
 
-         # Publish only for tag builds
-         if [ -z ${CM_TAG} ]; then
-           echo "Not a tag build, will not publish GitHub release"
-           exit 0
-         fi
+          # Publish only for tag builds
+          if [ -z ${CM_TAG} ]; then
+            echo "Not a tag build, will not publish GitHub release"
+            exit 0
+          fi
 
-         gh release create "${CM_TAG}" \
-           --title "Pokemon ${CM_TAG}" \
-           --notes-file changelog.md \
-           build/**/outputs/apk/**/*.apk
+          gh release create "${CM_TAG}" \
+            --title "Pokemon ${CM_TAG}" \
+            --notes-file changelog.md \
+            build/**/outputs/apk/**/*.apk
