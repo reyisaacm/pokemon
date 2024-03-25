@@ -7,7 +7,7 @@ workflows:
     environment:
       groups:
         - keystore_credentials
-        - github_creds
+        - github_credentials
       android_signing:
         - android-keystore
       # vars:
