@@ -8,15 +8,17 @@ workflows:
         - keystore_credentials
       android_signing:
         - android-keystore
+      vars:
+        GITHUB_TOKEN
       flutter: 3.19.3
     cache:
       cache_paths:
         - ~/.pub-cache
     triggering:
       events:
-        - push
+        - tag
       branch_patterns:
-        - pattern: '*master*'
+        - pattern: '*'
           include: true
           source: true
       cancel_previous_builds: true
@@ -29,6 +31,17 @@ workflows:
     artifacts:
       - build/**/outputs/apk/**/*.apk
     publishing:
-      email:
-        recipients:
-          - lightning2006@gmail.com
+      - name: Publish to GitHub
+        script: | 
+         #!/usr/bin/env zsh
+
+         # Publish only for tag builds
+         if [ -z ${CM_TAG} ]; then
+           echo "Not a tag build, will not publish GitHub release"
+           exit 0
+         fi
+
+         gh release create "${CM_TAG}" \
+           --title "Pokemon ${CM_TAG}" \
+           --notes-file changelog.md \
+           build/**/outputs/apk/**/*.apk
