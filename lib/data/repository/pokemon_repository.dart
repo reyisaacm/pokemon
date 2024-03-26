@@ -100,11 +100,22 @@ class PokemonRepository implements IPokemonRepository {
         listPokemon = cacheValue;
       }
 
-      listPokemon = listPokemon
-          .where((x) => x.name.toLowerCase().contains(search.toLowerCase()))
-          .skip(offset)
-          .take(limit)
-          .toList();
+      int? searchNumber = int.tryParse(search);
+      if (searchNumber == null) {
+        //if user search by name
+        listPokemon = listPokemon
+            .where((x) => x.name.toLowerCase().contains(search.toLowerCase()))
+            .skip(offset)
+            .take(limit)
+            .toList();
+      } else {
+        //if user search by number
+        if (searchNumber > listPokemon.length || searchNumber <= 0) {
+          listPokemon = [];
+        } else {
+          listPokemon = [listPokemon[searchNumber - 1]];
+        }
+      }
 
       final List<ResourceDetailPokemonResponseModel> detailList =
           await _getResourceDetailList(listPokemon);
