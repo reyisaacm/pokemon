@@ -4,7 +4,7 @@ Pokemon app on flutter
 
 ## Constraints and dependency
 - This app is designed to run only on mobile devices running Android or IOS.
-- Due to the limited devices this app is only tested to work on Samsung's Android 12, Samsung's Android 13, Vivo's Android 14, and Apple iPhone Simulator Running on IOS 17.2. Other devices may or may not work as intended.
+- Due to the limited devices this app is only tested to work on Samsung's Android 12, Samsung's Android 13, Vivo's Android 14, and iPhone 15 iOS 17. Other devices may or may not work as intended.
 - The orientation of the app is only portrait.
 - Due to lack of Apple Developer Account the CI/CD will only publish android APK file.
 - As of version 1.0.0 this app will build successfully when you use flutter version 3.19.3. Other version may or might not work as intended.
@@ -13,7 +13,7 @@ Pokemon app on flutter
 ## Getting Started
 
 ### Running app on iOS
-For iOS you need to manually build the files.
+For iOS you need to manually build the files. Please make sure you have valid developer certificates. To setup these certificates please follow the official Apple developer documentation.
 
 Install flutter according to the official documentation
 > https://docs.flutter.dev/get-started/install/macos/mobile-ios
