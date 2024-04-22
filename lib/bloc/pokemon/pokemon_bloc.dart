@@ -1,5 +1,6 @@
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter/foundation.dart";
+import "package:pokemon_flutter/data/interface/repository/i_pokemon_repository.dart";
 import "package:pokemon_flutter/data/repository/pokemon_repository.dart";
 import 'package:pokemon_flutter/models/pokemon_list_item_model.dart';
 
@@ -7,7 +8,7 @@ part 'pokemon_event.dart';
 part 'pokemon_state.dart';
 
 class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
-  final PokemonRepository pokemonRepository;
+  final IPokemonRepository pokemonRepository;
 
   PokemonBloc(this.pokemonRepository) : super(PokemonInitial()) {
     on<PokemonFetched>(_getPokemonList);

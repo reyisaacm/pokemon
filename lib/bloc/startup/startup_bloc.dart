@@ -1,5 +1,6 @@
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter/foundation.dart";
+import "package:pokemon_flutter/data/interface/repository/i_storage_repository.dart";
 import "package:pokemon_flutter/data/repository/storage_repository.dart";
 import "package:pokemon_flutter/models/pokemon_detail_model.dart";
 
@@ -7,7 +8,7 @@ part 'startup_event.dart';
 part 'startup_state.dart';
 
 class StartupBloc extends Bloc<StartupEvent, StartupState> {
-  final StorageRepository repo;
+  final IStorageRepository repo;
 
   StartupBloc(this.repo) : super(StartupInitial()) {
     on<StartupLoaded>(_readData);
