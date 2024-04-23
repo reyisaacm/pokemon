@@ -20,7 +20,7 @@ workflows:
       events:
         - tag
       branch_patterns:
-        - pattern: '*'
+        - pattern: 'master'
           include: true
           source: true
       cancel_previous_builds: true
