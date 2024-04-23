@@ -53,8 +53,8 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
       if (data != null) {
         if (event.berryType == data.previousBerryType) {
           data.weight = data.weight - (event.weight * 2);
-          if (data.weight < 0) {
-            data.weight = 0;
+          if (data.weight < 1) {
+            data.weight = 1;
           }
         } else {
           data.weight = data.weight + event.weight;
