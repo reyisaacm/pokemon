@@ -1,5 +1,6 @@
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter/foundation.dart";
+import "package:pokemon_flutter/data/interface/repository/i_storage_repository.dart";
 import 'package:pokemon_flutter/data/repository/storage_repository.dart';
 import "package:pokemon_flutter/models/pokemon_detail_model.dart";
 
@@ -7,7 +8,7 @@ part 'storage_event.dart';
 part 'storage_state.dart';
 
 class StorageBloc extends Bloc<StorageEvent, StorageState> {
-  final StorageRepository repo;
+  final IStorageRepository repo;
 
   StorageBloc(this.repo) : super(StorageInitial()) {
     on<StorageLoaded>(_readData);
@@ -52,8 +53,8 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
       if (data != null) {
         if (event.berryType == data.previousBerryType) {
           data.weight = data.weight - (event.weight * 2);
-          if (data.weight < 0) {
-            data.weight = 0;
+          if (data.weight < 1) {
+            data.weight = 1;
           }
         } else {
           data.weight = data.weight + event.weight;
